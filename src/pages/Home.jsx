@@ -1,6 +1,19 @@
+import { useNavigate } from 'react-router-dom';
+
 const Home = () => {
-    return <h2>Home Page</h2>;
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
   };
-  
-  export default Home;
-  
+
+  return (
+    <div>
+      <h2>Home Page</h2>
+      <button onClick={handleLogout}>Logout</button>
+    </div>
+  );
+};
+
+export default Home;
