@@ -1,15 +1,38 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+/*
+  Login page component.
+  Responsibilities:
+  - Authenticate existing users (mock authentication)
+  - Validate credentials against localStorage
+  - Update login state
+  - Redirect user after successful login
+*/
 const Login = () => {
   const navigate = useNavigate();
 
+  /*
+    State to manage login form inputs.
+    These are controlled inputs.
+  */
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  /*
+    Handles login form submission.
+    - Prevents default form reload
+    - Checks stored user data
+    - Validates credentials
+    - Updates authentication state
+  */
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    /*
+      Retrieve registered user data from localStorage.
+      This simulates backend user lookup.
+    */
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
     if (!storedUser) {
@@ -17,7 +40,12 @@ const Login = () => {
       return;
     }
 
+    /*
+      Validate entered credentials.
+      If matched, mark user as logged in.
+    */
     if (email === storedUser.email && password === storedUser.password) {
+      localStorage.setItem('isLoggedIn', 'true');
       navigate('/');
     } else {
       alert('Invalid email or password');
@@ -28,6 +56,10 @@ const Login = () => {
     <div>
       <h2>Login</h2>
 
+      {/*
+        Login form with controlled inputs.
+        onSubmit triggers authentication logic.
+      */}
       <form onSubmit={handleSubmit}>
         <input
           type="email"

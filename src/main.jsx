@@ -1,11 +1,30 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { CartProvider } from './context/CartContext';
 import './index.css';
 
+/*
+  Application entry point.
+  Responsibilities:
+  - Mount the React app to the DOM
+  - Wrap the app with routing support
+  - Provide global state providers
+*/
 ReactDOM.createRoot(document.getElementById('root')).render(
+  /*
+    BrowserRouter enables client-side routing.
+    Required for React Router to work across the application.
+  */
   <BrowserRouter>
-    <App />
+    {/*
+      CartProvider wraps the entire app to provide
+      centralized cart state access across all pages.
+    */}
+    <CartProvider>
+      <App />
+    </CartProvider>
   </BrowserRouter>
 );

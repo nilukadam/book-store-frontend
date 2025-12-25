@@ -1,14 +1,13 @@
-import { Children } from "react";
-import { Navigate, replace } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute =({ Children}) => {
-    const isAuthenticated = localStorage.getItem('user');
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = localStorage.getItem('isLoggedIn');
 
-    if (!isAuthenticated) {
-        return <Navigate to="login" replace/>
-    }
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
-    return Children;
-}
+  return children;
+};
 
 export default ProtectedRoute;
