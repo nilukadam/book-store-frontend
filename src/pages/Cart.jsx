@@ -1,4 +1,6 @@
 import { useCart } from '../context/CartContext';
+import { useOrders } from '../context/OrderContext';
+import { useNavigate } from 'react-router-dom';
 
 /*
   Cart page component.
@@ -21,6 +23,11 @@ const Cart = () => {
     removeFromCart
   } = useCart();
 
+  // Orders context
+   const { addOrder } = useOrders();
+   const navigate = useNavigate();
+
+
   /*
     Calculate total cart amount dynamically.
     Recalculates automatically whenever cartItems change.
@@ -29,6 +36,28 @@ const Cart = () => {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+// Handle order placement (frontend-only)
+const handlePlaceOrder = () => {
+  if (cartItems.length === 0) return;
+
+  const newOrder = {
+    id: `order_${Date.now()}`,   // unique order id
+    items: cartItems,            // snapshot of cart items
+    totalAmount,                 // already calculated above
+    createdAt: new Date().toISOString()
+  };
+
+  // 1. Save order to order history
+  addOrder(newOrder);
+
+  // 2. Clear cart using existing logic
+  cartItems.forEach(item => removeFromCart(item.id));
+
+  // 3. Redirect user to Orders page
+  navigate("/orders");
+};
+
 
   /*
     Empty cart state.
@@ -73,6 +102,9 @@ const Cart = () => {
           </li>
         ))}
       </ul>
+      <button className="btn btn-success w-100 mt-3"  disabled={cartItems.length === 0} onClick={handlePlaceOrder}>
+        Place Order
+      </button>
 
       {/*
         Display total cart amount

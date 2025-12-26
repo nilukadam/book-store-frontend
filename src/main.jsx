@@ -3,8 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import { CartProvider } from './context/CartContext';
 import './index.css';
+import { CartProvider } from './context/CartContext';
+import { OrderProvider } from './context/OrderContext';
 
 /*
   Application entry point.
@@ -24,7 +25,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       centralized cart state access across all pages.
     */}
     <CartProvider>
-      <App />
+      <OrderProvider>
+        <App/>
+      </OrderProvider>
     </CartProvider>
   </BrowserRouter>
 );
