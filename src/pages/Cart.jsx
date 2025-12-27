@@ -1,21 +1,12 @@
-import { useCart } from '../context/CartContext';
-import { useOrders } from '../context/OrderContext';
-import { useNavigate } from 'react-router-dom';
+// Cart page
+// Shows cart items, quantity controls, and total price
 
-/*
-  Cart page component.
-  Responsibilities:
-  - Display items added to the cart
-  - Allow quantity updates (+ / −)
-  - Allow item removal
-  - Show total cart amount
-*/
+import { useCart } from "../context/CartContext";
+import { useOrders } from "../context/OrderContext";
+import { useNavigate } from "react-router-dom";
+
 const Cart = () => {
-
-  /*
-    Extract cart state and actions from CartContext.
-    This ensures all cart operations remain centralized.
-  */
+  // get cart items and cart actions from context
   const {
     cartItems,
     increaseQty,
@@ -23,93 +14,113 @@ const Cart = () => {
     removeFromCart
   } = useCart();
 
-  // Orders context
-   const { addOrder } = useOrders();
-   const navigate = useNavigate();
+  // orders history context
+  const { addOrder } = useOrders();
+  const navigate = useNavigate();
 
-
-  /*
-    Calculate total cart amount dynamically.
-    Recalculates automatically whenever cartItems change.
-  */
+  // calculate total amount dynamically
   const totalAmount = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.price * item.qty,
     0
   );
 
-// Handle order placement (frontend-only)
-const handlePlaceOrder = () => {
-  if (cartItems.length === 0) return;
+  // Handle place order(frontend-only)
+  const handlePlaceOrder = () => {
+    if (cartItems.length === 0) return;
 
-  const newOrder = {
-    id: `order_${Date.now()}`,   // unique order id
-    items: cartItems,            // snapshot of cart items
-    totalAmount,                 // already calculated above
-    createdAt: new Date().toISOString()
+  // Create a new order Object
+    const newOrder = {
+      id: `order_${Date.now()}`, // simple unique id
+      items: cartItems,          // cart snapshot
+      totalAmount,
+      createdAt: new Date().toISOString()
+    };
+
+    // Save order in order History
+    addOrder(newOrder);
+
+    // Clear cart using existing logic.
+    cartItems.forEach(item => removeFromCart(item.id));
+
+    // Redirect user to Orders Page
+    navigate("/orders");
   };
 
-  // 1. Save order to order history
-  addOrder(newOrder);
-
-  // 2. Clear cart using existing logic
-  cartItems.forEach(item => removeFromCart(item.id));
-
-  // 3. Redirect user to Orders page
-  navigate("/orders");
-};
-
-
-  /*
-    Empty cart state.
-    Shown when there are no items in the cart.
-  */
+  //  CART EMPTY STATE ( clear message to user)
   if (cartItems.length === 0) {
-    return <h2>Your cart is empty.</h2>;
+    return (
+      <div className="container text-center mt-5">
+        <h4>Your cart is empty</h4>
+        <p className="text-muted">
+          Looks like you haven’t added any books yet.
+        </p>
+        <button
+          className="btn btn-primary mt-3"
+          onClick={() => navigate("/")}
+        >
+          Browse Books
+        </button>
+      </div>
+    );
   }
 
+  //  NORMAL CART VIEW
   return (
-    <div>
-      <h2>Your Cart</h2>
+    <div className="container mt-4">
+      <h2 className="mb-4">Your Cart</h2>
 
-      {/*
-        Render list of cart items.
-        Each item includes:
-        - Book name
-        - Price
-        - Quantity controls
-        - Remove option
-      */}
-      <ul>
+      <ul className="list-group mb-3">
         {cartItems.map(item => (
-          <li key={item.id} style={{ marginBottom: '10px' }}>
-            <strong>{item.name}</strong> — ₹{item.price} × {item.quantity}
+          <li
+            key={item.id}
+            className="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <div>
+              <strong>{item.name}</strong>
+              <div className="text-muted">
+                ₹{item.price} × {item.qty}
+              </div>
+            </div>
 
-            {/*
-              Increase quantity button
-            */}
-            <button onClick={() => increaseQty(item.id)}> + </button>
+            <div className="d-flex gap-2">
+              {/* qty increase */}
+              <button
+                className="btn btn-outline-secondary btn-sm"
+                onClick={() => increaseQty(item.id)}
+              >
+                +
+              </button>
 
-            {/*
-              Decrease quantity button
-              If quantity becomes 0, item is removed automatically
-            */}
-            <button onClick={() => decreaseQty(item.id)}> − </button>
+              {/* qty decrease */}
+              <button
+                className="btn btn-outline-secondary btn-sm"
+                onClick={() => decreaseQty(item.id)}
+              >
+                −
+              </button>
 
-            {/*
-              Remove item completely from cart
-            */}
-            <button onClick={() => removeFromCart(item.id)}>Remove</button>
+              {/* remove item  from cart*/}
+              <button
+                className="btn btn-outline-danger btn-sm"
+                onClick={() => removeFromCart(item.id)}
+              >
+                Remove
+              </button>
+            </div>
           </li>
         ))}
       </ul>
-      <button className="btn btn-success w-100 mt-3"  disabled={cartItems.length === 0} onClick={handlePlaceOrder}>
+
+      {/* Show total amount */}
+      <h4 className="mb-3">Total: ₹{totalAmount}</h4>
+
+      {/* primary action */}
+      <button
+        className="btn btn-primary w-100"
+        onClick={handlePlaceOrder}
+      >
         Place Order
       </button>
-
-      {/*
-        Display total cart amount
-      */}
-      <h3>Total: ₹{totalAmount}</h3>
     </div>
   );
 };

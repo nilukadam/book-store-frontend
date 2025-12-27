@@ -1,62 +1,63 @@
 import { useOrders } from "../context/OrderContext";
+import { useNavigate } from "react-router-dom";
 
-/*
-  Orders page component.
-  Responsibilities:
-  - Display order history
-  - Handle empty state
-  - Show order metadata (date, total)
-  - Read-only UI (no mutations)
-*/
 const Orders = () => {
-
-  // Access orders from OrderContext
+  // get orders list from context
   const { orders } = useOrders();
+  const navigate = useNavigate();
 
-  /*
-    Empty state:
-    Shown when user has not placed any orders yet.
-  */
+  // show this when there are no orders
   if (orders.length === 0) {
     return (
-      <div>
-        <h2>No orders placed yet.</h2>
-        <p>Your order history will appear here after checkout.</p>
+      <div className="container text-center mt-5">
+        <h4>No orders yet</h4>
+        <p className="text-muted">
+          You haven’t placed any orders yet.
+        </p>
+        <button
+          className="btn btn-primary mt-3"
+          onClick={() => navigate("/")}
+        >
+          Start Shopping
+        </button>
       </div>
     );
   }
 
   return (
-    <div>
-      <h2>Your Orders</h2>
+    <div className="container mt-4">
+      <h2 className="mb-4">Your Orders</h2>
 
-      {orders.map(order => (
+      {orders.map((order) => (
         <div
           key={order.id}
-          style={{
-            border: "1px solid #ccc",
-            padding: "10px",
-            marginBottom: "15px"
-          }}
+          className="card mb-3"
         >
-          {/* Order metadata */}
-          <p><strong>Order ID:</strong> {order.id}</p>
-          <p>
-            <strong>Date:</strong>{" "}
-            {new Date(order.createdAt).toLocaleString()}
-          </p>
+          <div className="card-body">
+            {/* order info */}
+            <p>
+              <strong>Order ID:</strong> {order.id}
+            </p>
+            <p>
+              <strong>Date:</strong>{" "}
+              {new Date(order.createdAt).toLocaleString()}
+            </p>
 
-          {/* Ordered items */}
-          <ul>
-            {order.items.map(item => (
-              <li key={item.id}>
-                {item.name} — ₹{item.price} × {item.quantity}
-              </li>
-            ))}
-          </ul>
+            {/* ordered items */}
+            <ul className="list-group mb-3">
+              {order.items.map((item) => (
+                <li
+                  key={item.id}
+                  className="list-group-item"
+                >
+                  {item.name} — ₹{item.price} × {item.qty}
+                </li>
+              ))}
+            </ul>
 
-          {/* Order total */}
-          <h4>Total: ₹{order.totalAmount}</h4>
+            {/* order total */}
+            <h5>Total: ₹{order.totalAmount}</h5>
+          </div>
         </div>
       ))}
     </div>

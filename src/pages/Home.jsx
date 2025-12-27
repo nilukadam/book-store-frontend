@@ -1,76 +1,55 @@
-import { useState } from 'react';
-import booksData from '../data/books';
-import { useCart } from '../context/CartContext';
+import { useState } from "react";
+import booksData from "../data/books";
+import { useCart } from "../context/CartContext";
 
-/*
-  Home page component.
-  Responsibilities:
-  - Display list of available books
-  - Handle client-side search
-  - Allow users to add books to cart
-*/
 const Home = () => {
+  // store search input value
+  const [searchTerm, setSearchTerm] = useState("");
 
-  /*
-    searchTerm stores the value entered in the search input.
-    It is used to filter books in real time on the client side.
-  */
-  const [searchTerm, setSearchTerm] = useState('');
+  // get addToCart function from cart context
+  const { addToCart } = useCart();
 
-  /*
-    Filter books based on search term.
-    - Case-insensitive search
-    - Runs on every render when searchTerm changes
-  */
+  // filter books based on search input (case insensitive)
   const filteredBooks = booksData.filter((book) =>
     book.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  /*
-    Extract addToCart function from CartContext.
-    This allows Home page to update centralized cart state.
-  */
-  const { addToCart } = useCart();
-
   return (
-    /*
-      Main container for Home page content.
-      marginTop is used to avoid overlap with fixed header.
-    */
-    <div style={{ padding: '20px', marginTop: '80px' }}>
-      
-      <h2>Available Books</h2>
+    // main container
+    <div className="container mt-5">
+      <h2 className="mb-4">Available Books</h2>
 
-      {/*
-        Search input for filtering books by name.
-        Updates searchTerm state on every keystroke.
-      */}
+      {/* search input */}
       <input
         type="text"
+        className="form-control mb-4"
         placeholder="Search books..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ padding: '6px', marginBottom: '20px' }}
       />
 
-      {/*
-        Conditional rendering:
-        - Show message if no books match search
-        - Otherwise, display filtered book list
-      */}
+      {/* show message if no books found */}
       {filteredBooks.length === 0 ? (
-        <p>No books found.</p>
+        <p className="text-center text-muted">
+          No books found for "{searchTerm}"
+        </p>
       ) : (
-        <ul>
+        <ul className="list-group">
           {filteredBooks.map((book) => (
-            <li key={book.id} style={{ marginBottom: '10px' }}>
-              <strong>{book.name}</strong> — ₹{book.price}
+            <li
+              key={book.id}
+              className="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <strong>{book.name}</strong>
+                <div className="text-muted">₹{book.price}</div>
+              </div>
 
-              {/*
-                Add to Cart button.
-                On click, sends selected book to CartContext.
-              */}
-              <button onClick={() => addToCart(book)}>
+              {/* add book to cart */}
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => addToCart(book)}
+              >
                 Add to Cart
               </button>
             </li>

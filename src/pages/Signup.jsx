@@ -103,7 +103,10 @@ const Signup = () => {
           onChange={handleChange}
         />
 
-        <button type="submit">Signup</button>
+        <button type="submit"
+         className="btn btn-primary"
+         disabled={!email || !password}
+         >Signup</button>
       </form>
     </div>
   );

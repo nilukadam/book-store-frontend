@@ -1,5 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
+import { useCart} from '../../context/CartContext'
+import { getCartItemCount } from '../../utils/cartUtils';
 
 /*
   Header component.
@@ -22,6 +24,10 @@ const Header = () => {
     navigate('/login');
   };
 
+  const { cartItems} = useCart()
+
+  const cartCount = getCartItemCount(cartItems)
+
   return (
     <header className="header">
       {/* Application Logo / Brand */}
@@ -39,6 +45,14 @@ const Header = () => {
       <nav className="nav">
         <Link to="/">Home</Link>
         <Link to="/cart">Cart</Link>
+        <div className='position-relative'>
+            <span>🛒</span>
+            {cartCount > 0 && (
+              <span  className="badge bg-danger position-absolute top-0 start-100 translate-middle" >
+                {cartCount}
+              </span>
+            )}
+        </div>
         <Link to="/orders">Orders</Link>
 
         {/* Logout button */}
