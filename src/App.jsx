@@ -5,24 +5,25 @@ import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import ProtectedRoute from './components/ProtectedRoute';
-import Header from './components/Header/Header';
+import Navbar from './components/Navbar/Navbar';
+import BookDetails from './pages/BookDetails';
 
 /*
   Root application component.
   Responsibilities:
   - Define application routes
   - Control layout structure
-  - Handle conditional rendering of Header
+  - Handle conditional rendering of Navbar
 */
 function App() {
   /*
     useLocation provides access to the current URL path.
-    Used here to conditionally hide the Header on auth pages.
+    Used here to conditionally hide the Navbar on auth pages.
   */
   const location = useLocation();
 
   /*
-    Header should not be visible on Login and Signup pages.
+    Navbar should not be visible on Login and Signup pages.
     This improves focus and UX during authentication.
   */
   const hideHeader =
@@ -31,8 +32,8 @@ function App() {
 
   return (
     <>
-      {/* Render Header only on authenticated pages */}
-      {!hideHeader && <Header />}
+      {/* Render Navbar only on authenticated pages */}
+      {!hideHeader && <Navbar />}
 
       {/* Main content wrapper for all routed pages */}
       <main style={{ padding: '20px' }}>
@@ -65,6 +66,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Orders />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/BookDetails"
+            element={
+              <ProtectedRoute>
+                <BookDetails/>
               </ProtectedRoute>
             }
           />

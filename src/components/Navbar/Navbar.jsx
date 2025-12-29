@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import './Header.css';
+import './Navbar.css';
 import { useCart} from '../../context/CartContext'
 import { getCartItemCount } from '../../utils/cartUtils';
 
@@ -29,23 +29,25 @@ const Header = () => {
   const cartCount = getCartItemCount(cartItems)
 
   return (
-    <header className="header">
+    <header className="header d-flex align-items-center justify-content-between px-4">
       {/* Application Logo / Brand */}
-      <h2 className="logo">BookStore</h2>
+      <h2 className="logo mb-0">BookStore</h2>
 
       {/* Search input (UI only for now, logic added later if required) */}
-      <input
-        type="text"
-        placeholder="Search books..."
-        className="search"
-        disabled
-      />
+      <div className='fles-grow-1 mx-4'>
+       <input
+         type="text"
+         placeholder="Search books..."
+         className="search w-100"
+         disabled
+       />
+      </div>
 
       {/* Navigation links */}
       <nav className="nav">
         <Link to="/">Home</Link>
         <Link to="/cart">Cart</Link>
-        <div className='position-relative'>
+        <div className='position-relative navbar-icon'>
             <span>🛒</span>
             {cartCount > 0 && (
               <span  className="badge bg-danger position-absolute top-0 start-100 translate-middle" >
@@ -56,7 +58,10 @@ const Header = () => {
         <Link to="/orders">Orders</Link>
 
         {/* Logout button */}
-        <button onClick={handleLogout}>Logout</button>
+        <button className='btn btn-outline-secondary btn-sm'
+        onClick={handleLogout}>
+          Logout
+        </button>
       </nav>
     </header>
   );

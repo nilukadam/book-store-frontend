@@ -9,7 +9,7 @@ const Orders = () => {
   // show this when there are no orders
   if (orders.length === 0) {
     return (
-      <div className="container text-center mt-5">
+      <div className="container text-center empty-cart">
         <h4>No orders yet</h4>
         <p className="text-muted">
           You haven’t placed any orders yet.
@@ -19,7 +19,7 @@ const Orders = () => {
           onClick={() => navigate("/")}
         >
           Start Shopping
-        </button>
+        </button> 
       </div>
     );
   }
@@ -28,10 +28,10 @@ const Orders = () => {
     <div className="container mt-4">
       <h2 className="mb-4">Your Orders</h2>
 
-      {orders.map((order) => (
+      {orders.map((order, index) => (
         <div
           key={order.id}
-          className="card mb-3"
+          className={`card mb-3 ${index === 0 ? "latest-order" : ""}`}
         >
           <div className="card-body">
             {/* order info */}
@@ -44,7 +44,7 @@ const Orders = () => {
             </p>
 
             {/* ordered items */}
-            <ul className="list-group mb-3">
+            <ul className="list-group list-group-flush mb-3">
               {order.items.map((item) => (
                 <li
                   key={item.id}
@@ -56,7 +56,7 @@ const Orders = () => {
             </ul>
 
             {/* order total */}
-            <h5>Total: ₹{order.totalAmount}</h5>
+            <h5 className="mt-5">Total: ₹{order.totalAmount}</h5>
           </div>
         </div>
       ))}

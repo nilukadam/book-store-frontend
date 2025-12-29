@@ -20,7 +20,7 @@ const Cart = () => {
 
   // calculate total amount dynamically
   const totalAmount = cartItems.reduce(
-    (sum, item) => sum + item.price * item.qty,
+    (sum, item) => sum + item.price * (item.qty || 1),
     0
   );
 
@@ -49,7 +49,7 @@ const Cart = () => {
   //  CART EMPTY STATE ( clear message to user)
   if (cartItems.length === 0) {
     return (
-      <div className="container text-center mt-5">
+      <div className="container text-center rmpty-cart">
         <h4>Your cart is empty</h4>
         <p className="text-muted">
           Looks like you haven’t added any books yet.
@@ -69,11 +69,11 @@ const Cart = () => {
     <div className="container mt-4">
       <h2 className="mb-4">Your Cart</h2>
 
-      <ul className="list-group mb-3">
+      <div className="mb-3">
         {cartItems.map(item => (
-          <li
+          <div
             key={item.id}
-            className="list-group-item d-flex justify-content-between align-items-center"
+            className="card mb-3 p-3 d-flex justify-content-between align-items-center flex-row"
           >
             <div>
               <strong>{item.name}</strong>
@@ -107,20 +107,21 @@ const Cart = () => {
                 Remove
               </button>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
 
       {/* Show total amount */}
-      <h4 className="mb-3">Total: ₹{totalAmount}</h4>
+      <div className="d-flex justify-content-between align-items-center mt-4">
+        <h4 className="mb-0">Total: ₹{totalAmount}</h4>
 
-      {/* primary action */}
-      <button
-        className="btn btn-primary w-100"
-        onClick={handlePlaceOrder}
-      >
-        Place Order
-      </button>
+        <button
+          className="btn btn-primary px-4"
+          onClick={handlePlaceOrder}
+        >
+          Place Order
+        </button>
+      </div>
     </div>
   );
 };
