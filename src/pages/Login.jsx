@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
+
 
 /*
   Login page component.
@@ -61,24 +64,29 @@ const Login = () => {
         onSubmit triggers authentication logic.
       */}
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <Input
+        label="Email"
+        type="email"
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <Input
+        label="Password"
+        type="password"
+        placeholder="Enter your password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
-        <button type="submit"
-         className="btn btn-primary"
-         disabled={!email || !password}
-         >Login</button>
+      <Button
+        type="submit"
+        disabled={!email || !password}
+      >
+       Login
+      </Button>
+        
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import booksData from "../data/books";
 import { useCart } from "../context/CartContext";
+import Button from "../components/ui/Button";
 
 const Home = () => {
   // store search input value
@@ -52,6 +53,9 @@ const Home = () => {
               >
                 Add to Cart
               </button>
+              <Button>Test Button</Button>
+              <Button variant="secondary" className="ms-2">Secondary</Button>
+              <Button variant="danger" disabled className="ms-2">Disabled</Button>
             </li>
           ))}
         </ul>
