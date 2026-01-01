@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useOrders } from "../context/OrderContext";
 import { useNavigate } from "react-router-dom";
 import EmptyState from "../components/ui/EmptyState";
@@ -10,7 +11,26 @@ const Orders = () => {
   // get orders list from context
   const { orders } = useOrders();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 800);
+
+  return () => clearTimeout(timer);
+}, []);
+
+
+  if (loading) {
+    return (
+      <div className="container text-center mt-5">
+        <div className="spinner-border "/>
+        <p className="mt-2 text-muted">Loading your orders...</p>
+      </div>
+    )
+  }
   // show this when there are no orders
   if (orders.length === 0) {
     return (
@@ -27,6 +47,7 @@ const Orders = () => {
     </div>
     );
   }
+  
 
   return (
     <div className="container mt-4">
@@ -38,7 +59,11 @@ const Orders = () => {
       {orders.map((order, index) => (
         <Card
         key={order.id}
-        className={index === 0 ? "latest-order" : ""}
+        className={index === 0 && (
+          <div className=" alert alert-success mb-3">
+            Order placed Successfully..!!
+          </div>
+        )}
       >
         {/* order info */}
         <p>

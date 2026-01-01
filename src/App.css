@@ -11,6 +11,24 @@
   will-change: filter;
   transition: filter 300ms;
 }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 320px;
+}
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
@@ -54,8 +72,8 @@
   justify-content: center;
 }
 .latest-order {
-  border-left: 4px solid #0d6efd;
-  background: #f8f9fa;
+  border: 2px solid #198754;
+  background-color: #f6fff9;
 }
 
 @keyframes logo-spin {

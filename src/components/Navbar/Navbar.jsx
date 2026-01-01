@@ -17,7 +17,7 @@ const Header = () => {
   /*
     Handles user logout.
     - Clears authentication flag from localStorage
-    - Redirects user to login page
+    - Redirects user to login page 
   */
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
@@ -34,7 +34,7 @@ const Header = () => {
       <h2 className="logo mb-0">BookStore</h2>
 
       {/* Search input (UI only for now, logic added later if required) */}
-      <div className='fles-grow-1 mx-4'>
+      <div className='flex-grow-1 mx-4'>
        <input
          type="text"
          placeholder="Search books..."
@@ -46,17 +46,19 @@ const Header = () => {
       {/* Navigation links */}
       <nav className="nav">
         <Link to="/">Home</Link>
-        <Link to="/cart">Cart</Link>
-        <div className='position-relative navbar-icon'>
-            <span>🛒</span>
-            {cartCount > 0 && (
-              <span  className="badge bg-danger position-absolute top-0 start-100 translate-middle" >
-                {cartCount}
-              </span>
-            )}
-        </div>
+       <Link 
+       to="cart"
+       className='position-relative navbar-icon'
+       aria-label='Cart'>
+        <span>🛒</span>
+        { cartCount > 0 && (
+          <span  className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+            {cartCount}
+          </span>
+        )}
+       </Link>
         <Link to="/orders">Orders</Link>
-
+        
         {/* Logout button */}
         <button className='btn btn-outline-secondary btn-sm'
         onClick={handleLogout}>
