@@ -12,11 +12,10 @@ const Home = () => {
 
   // filter books based on search input (case insensitive)
   const filteredBooks = booksData.filter((book) =>
-    book.name.toLowerCase().includes(searchTerm.toLowerCase())
+    book.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    // main container
     <div className="container mt-5">
       <h2 className="mb-4">Available Books</h2>
 
@@ -42,20 +41,25 @@ const Home = () => {
               className="list-group-item d-flex justify-content-between align-items-center"
             >
               <div>
-                <strong>{book.name}</strong>
+                <strong>{book.title}</strong>
                 <div className="text-muted">₹{book.price}</div>
               </div>
 
-              {/* add book to cart */}
               <button
                 className="btn btn-primary btn-sm"
                 onClick={() => addToCart(book)}
               >
                 Add to Cart
               </button>
+
+              {/* UI Button tests (safe to keep) */}
               <Button>Test Button</Button>
-              <Button variant="secondary" className="ms-2">Secondary</Button>
-              <Button variant="danger" disabled className="ms-2">Disabled</Button>
+              <Button variant="secondary" className="ms-2">
+                Secondary
+              </Button>
+              <Button variant="danger" disabled className="ms-2">
+                Disabled
+              </Button>
             </li>
           ))}
         </ul>
