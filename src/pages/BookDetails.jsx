@@ -1,69 +1,68 @@
-import React from "react";
+import { useParams } from "react-router-dom";
+import books from "../data/books";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
 
-/*
-  BookDetails Page
-  ----------------
-  Purpose:
-  - Show full details of a single book
-  - Clean layout with image on left and info on right
-  - No logic change, only UI structure
-*/
+const BookDetails = () => {
+  const { id } = useParams();
+  const book = books.find((b) => b.id === id);
 
-const BookDetails = ({ book }) => {
-  /*
-    Safety check:
-    If book data is not available, show nothing.
-    (UI safety, not logic change)
-  */
   if (!book) {
     return <div className="container mt-5">Book not found</div>;
   }
 
   return (
-    <div className="container mt-5">
-      {/* Main layout row */}
-      <div className="row align-items-start">
+    <div className="container mt-5" style={{ maxWidth: "720px" }}>
+      <p className="text-muted mb-2" style={{ fontSize: "14px" }}>
+  Home / Books / {book.title}
+</p>
 
-        {/* LEFT SIDE : Book Image */}
-        <div className="col-md-5 text-center mb-4 mb-md-0">
+      <Card className="p-4">
+
+        {/* Book Cover */}
+        <div className="text-center mb-3">
           <img
-            src={book.image}
+            src={book.cover}
             alt={book.title}
             className="img-fluid rounded"
+            style={{
+              maxHeight: "380px",
+              objectFit: "contain",
+            }}
           />
         </div>
 
-        {/* RIGHT SIDE : Book Information */}
-        <div className="col-md-7">
+        {/* Book Info */}
+        <h3 className="mb-1">{book.title}</h3>
 
-          {/* Book Title */}
-          <h2 className="book-title mb-2">
-            {book.title}
-          </h2>
+        <p className="text-muted mb-2">
+          -- by {book.author}
+        </p>
 
-          {/* Author Name */}
-          <p className="text-muted mb-3">
-            by {book.author}
-          </p>
+        <p className="mb-2">
+          ⭐ {book.rating} / 5
+        </p>
 
-          {/* Price */}
-          <p className="book-price mb-4">
-            ₹{book.price}
-          </p>
+        <p className="fs-4 fw-bold mb-3">
+          ₹{book.price}
+        </p>
 
-          {/* Action Buttons */}
-          <div className="d-flex gap-3">
-            <button className="btn btn-primary">
-              Add to Cart
-            </button>
+        <p
+          className="text-secondary mb-4"
+          style={{ lineHeight: "1.6" }}
+        >
+          {book.description}
+        </p>
 
-            <button className="btn btn-outline-secondary">
-              Buy Now
-            </button>
-          </div>
+        <hr className="my-4" />
 
+        {/* Actions */}
+        <div className="d-flex gap-3">
+          <Button>Add to Cart</Button>
+          <Button variant="outline">Order Now</Button>
         </div>
-      </div>
+
+      </Card>
     </div>
   );
 };

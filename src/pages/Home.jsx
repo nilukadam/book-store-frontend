@@ -28,7 +28,7 @@ const Home = () => {
       {filteredBooks.length === 0 ? (
         <p className="text-center text-muted">
           No books found for "{searchTerm}"
-        </p>
+        </p> 
       ) : (
         <div className="row g-4">
           {filteredBooks.map((book) => (

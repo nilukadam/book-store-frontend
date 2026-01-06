@@ -1,8 +1,11 @@
 import Card from "./ui/Card";
 import Button from "./ui/Button";
 import "./ui/bookCard.css";
+import { useNavigate } from "react-router-dom";
+
 
 const BookCard = ({ book }) => {
+const navigate = useNavigate();
   if (!book) return null; // safety guard
 
   return (
@@ -25,7 +28,12 @@ const BookCard = ({ book }) => {
 
         <div className="book-card-footer">
           <span className="book-price">₹{book.price}</span>
-          <Button size="sm">View Details</Button>
+          <Button 
+           size ="sm"
+           onClick = {() => navigate(`/book/${book.id}`)}>
+            View Details
+          </Button>
+
         </div>
       </div>
     </Card>

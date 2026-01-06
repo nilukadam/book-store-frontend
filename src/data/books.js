@@ -16,7 +16,7 @@ import career3 from "../assets/books/career-3.jpg";
 import solveProcrastination from "../assets/books/solve-procrastination.jpg";
 
 const books = [
-  {
+  { 
     id: "1",
     title: "Atomic Habits",
     author: "James Clear",

@@ -7,6 +7,7 @@ import Orders from './pages/Orders';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar/Navbar';
 import BookDetails from './pages/BookDetails';
+import Auth from './pages/Auth';
 
 /*
   Root application component.
@@ -39,9 +40,7 @@ function App() {
       <main style={{ padding: '20px' }}>
         <Routes>
           {/* Public Routes (accessible without login) */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-
+          <Route path='auth' element={<Auth/>}/>
           {/* Protected Routes (require authentication) */}
           <Route
             path="/"
@@ -70,7 +69,7 @@ function App() {
             }
           />
           <Route
-            path="/BookDetails"
+            path="/book/:id"
             element={
               <ProtectedRoute>
                 <BookDetails/>
