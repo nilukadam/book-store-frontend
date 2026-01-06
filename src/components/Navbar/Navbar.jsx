@@ -37,7 +37,7 @@ const Header = () => {
       <div className='flex-grow-1 mx-4'>
        <input
          type="text"
-         placeholder="Search books..."
+         placeholder="Search books, authors (coming soon)"
          className="search w-100"
          disabled
        />
@@ -50,7 +50,7 @@ const Header = () => {
        to="cart"
        className='position-relative navbar-icon'
        aria-label='Cart'>
-        <span>🛒</span>
+        <span>Cart</span>
         { cartCount > 0 && (
           <span  className="badge bg-danger position-absolute top-0 start-100 translate-middle">
             {cartCount}

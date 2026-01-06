@@ -1,16 +1,12 @@
 import { useState } from "react";
 import booksData from "../data/books";
-import { useCart } from "../context/CartContext";
-import Button from "../components/ui/Button";
+import BookCard from "../components/BookCard";
 
 const Home = () => {
-  // store search input value
+  // search state
   const [searchTerm, setSearchTerm] = useState("");
 
-  // get addToCart function from cart context
-  const { addToCart } = useCart();
-
-  // filter books based on search input (case insensitive)
+  // filter books (logic unchanged)
   const filteredBooks = booksData.filter((book) =>
     book.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -19,50 +15,31 @@ const Home = () => {
     <div className="container mt-5">
       <h2 className="mb-4">Available Books</h2>
 
-      {/* search input */}
+      {/* Search input */}
       <input
         type="text"
-        className="form-control mb-4"
-        placeholder="Search books..."
+        className="form-control form-control-sm mb-4"
+        placeholder="Search books on this page..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      {/* show message if no books found */}
+      {/* Empty state */}
       {filteredBooks.length === 0 ? (
         <p className="text-center text-muted">
           No books found for "{searchTerm}"
         </p>
       ) : (
-        <ul className="list-group">
+        <div className="row g-4">
           {filteredBooks.map((book) => (
-            <li
+            <div
               key={book.id}
-              className="list-group-item d-flex justify-content-between align-items-center"
+              className="col-12 col-sm-6 col-lg-4 col-xl-3"
             >
-              <div>
-                <strong>{book.title}</strong>
-                <div className="text-muted">₹{book.price}</div>
-              </div>
-
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={() => addToCart(book)}
-              >
-                Add to Cart
-              </button>
-
-              {/* UI Button tests (safe to keep) */}
-              <Button>Test Button</Button>
-              <Button variant="secondary" className="ms-2">
-                Secondary
-              </Button>
-              <Button variant="danger" disabled className="ms-2">
-                Disabled
-              </Button>
-            </li>
+              <BookCard book={book} />
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

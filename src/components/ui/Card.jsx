@@ -1,20 +1,13 @@
-/*
-  Card UI Component
-
-  Purpose:
-  - Standard container for sections
-  - Reusable across pages
-*/
+import { useState } from "react";
 
 const Card = ({ children, className = "" }) => {
-    return (
-      <div className={`card mb-3 ${className}`}>
-        <div className="card-body">
-          {children}
-        </div>
+  return (
+    <div className={`card h-100 ${className}`}>
+      <div className="card-body">
+        {children}
       </div>
-    );
-  };
-  
-  export default Card;
-  
+    </div>
+  );
+};
+
+export default Card;

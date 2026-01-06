@@ -1,40 +1,52 @@
+/* =========================================================
+   NAVBAR / HEADER STYLES (LOCKED)
+   Responsibility:
+   - Top navigation bar
+   - Fixed position
+   - Clean & premium look
+   - No animations
+   ========================================================= */
+
 /* Header container */
 .header {
+  position: fixed;          /* FIXED navbar */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;             /* single source of truth */
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 12px 20px;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
+  padding: 0 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+  z-index: 1000;            /* stays above content */
 }
 
-/* Logo text */
+/* Logo / Brand */
 .logo {
   margin-right: auto;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
 }
 
-/* Search input */
+/* Search input in navbar (UI-only for now) */
 .search {
-  padding: 6px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 0.85rem;
 }
 
-/* Navigation links */
+/* Navigation links container */
 .nav {
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
-/* Logout button */
-.nav button {
-  cursor: pointer;
-}
-.header {
-  height: 64px;
-  background: #ffffff;
-  border-bottom: 1px solid #eaeaea;
-}
-
+/* Navigation links */
 .nav a {
   text-decoration: none;
   color: #333;
@@ -46,14 +58,21 @@
   opacity: 0.85;
 }
 
+/* Navbar icons (cart, profile, etc.) */
 .navbar-icon {
   cursor: pointer;
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 }
 
-.search {
-  padding: 6px 12px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
+/* Cart badge */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #dc3545;
+  color: #ffffff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
 }

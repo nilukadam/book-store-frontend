@@ -1,100 +1,78 @@
+/* =========================================================
+   GLOBAL APP STYLES (LOCKED)
+   Responsibility:
+   - Global layout
+   - Offset fixed navbar
+   - General UI consistency
+   ========================================================= */
+
+/* Root wrapper */
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem;          /* removed top padding */
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+/* Offset fixed navbar height */
+.app-content {
+  padding-top: 64px;        /* MUST match navbar height */
 }
+
+/* Global typography */
+body {
+  margin: 0;
+  background-color: #ffffff;
+  color: #212529;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Modal overlay (used in auth / cart etc.) */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 1100;
 }
 
 .modal-box {
-  background: white;
+  background: #ffffff;
   padding: 20px;
   border-radius: 8px;
   width: 90%;
   max-width: 320px;
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-.navbar-icon {
-  cursor: pointer;
-  padding: 6px;
+/* Cards (generic – NOT book specific) */
+.card {
+  padding: 1.25rem;         /* reduced from 2em (better balance) */
 }
 
-.navbar-icon:hover {
-  background: #f2f2f2;
-  border-radius: 50%;
-}
-
-.cart-badge {
-  position: absolute;
-  top: -6px;
-  right: -8px;
-  background: #dc3545;
-  color: white;
-  font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 50%;
-}
- 
-.book-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-
-.book-price {
-  font-size: 1.4rem;
-  font-weight: bold;
-}
+/* Empty cart screen */
 .empty-cart {
   min-height: 60vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
+/* Latest order highlight */
 .latest-order {
   border: 2px solid #198754;
   background-color: #f6fff9;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Remove default focus glow */
+button:focus,
+input:focus {
+  outline: none;
+  box-shadow: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+/* Muted text consistency */
+.text-muted {
+  color: #6c757d !important;
 }
