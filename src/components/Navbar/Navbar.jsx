@@ -21,7 +21,7 @@ const Header = () => {
   */
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
-    navigate('/login');
+    navigate('/auth');
   };
 
   const { cartItems} = useCart()
