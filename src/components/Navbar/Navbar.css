@@ -1,78 +1,168 @@
-/* =========================================================
-   NAVBAR / HEADER STYLES (LOCKED)
-   Responsibility:
-   - Top navigation bar
-   - Fixed position
-   - Clean & premium look
-   - No animations
-   ========================================================= */
-
-/* Header container */
+/* ===== HEADER ===== */
 .header {
-  position: fixed;          /* FIXED navbar */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 72px;             /* single source of truth */
-  display: flex;
+  height: 72px;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 16px;
-  padding: 0 20px;
+
+  padding: 0 32px;
   background-color: #ffffff;
-  border-bottom: 1px solid #eaeaea;
-  z-index: 1000;            /* stays above content */
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 1000;
 }
 
-/* Logo / Brand */
+/* ===== BRAND ===== */
 .logo {
-  margin-right: auto;
-  font-weight: 600;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-/* Search input in navbar (UI-only for now) */
-.search {
-  padding: 6px 12px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: 0.85rem;
-}
-
-/* Navigation links container */
-.nav {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-/* Navigation links */
-.nav a {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111827;
   text-decoration: none;
-  color: #333;
-  font-weight: 500;
 }
 
-.nav a:hover {
+.logo:hover {
   color: #0d6efd;
-  opacity: 0.85;
 }
 
-/* Navbar icons (cart, profile, etc.) */
-.navbar-icon {
-  cursor: pointer;
-  color: inherit;
+/* ===== CENTER NAV ===== */
+.center-nav {
+  justify-self: center;
+  display: flex;
+  gap: 28px;
+}
+
+.center-nav a {
+  position: relative;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
   text-decoration: none;
+  padding: 6px 2px;
 }
 
-/* Cart badge */
+.center-nav a:hover {
+  color: #0d6efd;
+}
+
+.center-nav a.active {
+  color: #0d6efd;
+}
+
+.center-nav a.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background-color: #0d6efd;
+  border-radius: 2px;
+}
+
+/* ===== CART BADGE ===== */
 .cart-badge {
   position: absolute;
   top: -6px;
-  right: -8px;
+  right: -12px;
   background: #dc3545;
   color: #ffffff;
   font-size: 11px;
   padding: 2px 6px;
+  border-radius: 999px;
+}
+
+/* ===== AUTH / PROFILE ===== */
+.nav-right {
+  justify-self: end;
+  position: relative;
+}
+
+.profile-btn {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.profile-icon {
+  font-size: 18px;
+  color: #374151;
+}
+
+/* ===== PROFILE DROPDOWN ===== */
+.profile-dropdown {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  width: 240px;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 8px 0;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  z-index: 2000;
+}
+
+.profile-info {
+  padding: 12px 16px;
+  background-color: #f9fafb;
+}
+
+.profile-info strong {
+  display: block;
+  font-size: 14px;
+  color: #111827;
+}
+
+.profile-info .email {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.profile-info.muted {
+  background: none;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.divider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 6px 0;
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+  width: 100%;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+  background-color: #f3f4f6;
+}
+
+.logout-btn {
+  color: #dc3545;
+}
+
+.login-link {
+  color: #0d6efd;
 }

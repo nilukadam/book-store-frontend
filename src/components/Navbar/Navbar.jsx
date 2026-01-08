@@ -1,70 +1,123 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './Navbar.css';
-import { useCart} from '../../context/CartContext'
+import { useCart } from '../../context/CartContext';
 import { getCartItemCount } from '../../utils/cartUtils';
 
-/*
-  Header component.
-  Responsibilities:
-  - Display application branding (logo)
-  - Provide primary navigation links
-  - Handle user logout
-  - Remain visible only on authenticated pages
-*/
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  /*
-    Handles user logout.
-    - Clears authentication flag from localStorage
-    - Redirects user to login page 
-  */
+  // Cart data
+  const { cartItems } = useCart();
+  const cartCount = getCartItemCount(cartItems);
+
+  // Auth data (temporary localStorage-based)
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  // Profile dropdown state
+  const [openProfile, setOpenProfile] = useState(false);
+  const profileRef = useRef(null);
+
+  // Close profile dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setOpenProfile(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Logout handler
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     navigate('/auth');
   };
 
-  const { cartItems} = useCart()
-
-  const cartCount = getCartItemCount(cartItems)
-
   return (
-    <header className="header d-flex align-items-center justify-content-between px-4">
-      {/* Application Logo / Brand */}
-      <h2 className="logo mb-0">BookStore</h2>
-
-      {/* Search input (UI only for now, logic added later if required) */}
-      <div className='flex-grow-1 mx-4'>
-       <input
-         type="text"
-         placeholder="Search books, authors (coming soon)"
-         className="search w-100"
-         disabled
-       />
+    <header className="header">
+      {/* LEFT: Brand */}
+      <div className="nav-left">
+        <Link to="/" className="logo">
+          BookNest
+        </Link>
       </div>
 
-      {/* Navigation links */}
-      <nav className="nav">
-        <Link to="/">Home</Link>
-       <Link 
-       to="cart"
-       className='position-relative navbar-icon'
-       aria-label='Cart'>
-        <span>Cart</span>
-        { cartCount > 0 && (
-          <span  className="badge bg-danger position-absolute top-0 start-100 translate-middle">
-            {cartCount}
-          </span>
-        )}
-       </Link>
-        <Link to="/orders">Orders</Link>
-        
-        {/* Logout button */}
-        <button className='btn btn-outline-secondary btn-sm'
-        onClick={handleLogout}>
-          Logout
-        </button>
+      {/* CENTER: Navigation */}
+      <nav className="center-nav">
+        <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
+          Home
+        </Link>
+
+        <Link to="/cart" className={location.pathname === '/cart' ? 'active' : ''}>
+          Cart
+          {cartCount > 0 && (
+            <span className="cart-badge">{cartCount}</span>
+          )}
+        </Link>
+
+        <Link
+          to="/orders"
+          className={location.pathname === '/orders' ? 'active' : ''}
+        >
+          Orders
+        </Link>
       </nav>
+
+      {/* RIGHT: Profile */}
+      <div className="nav-right" ref={profileRef}>
+        <button
+          className="profile-btn"
+          onClick={() => setOpenProfile((prev) => !prev)}
+        >
+          <span className="profile-icon">👤</span>
+        </button>
+
+        {openProfile && (
+          <div className="profile-dropdown">
+            {isLoggedIn ? (
+              <>
+                <div className="profile-info">
+                  <strong>{user?.name || 'User Name'}</strong>
+                  <div className="email">
+                    {user?.email || 'user@email.com'}
+                  </div>
+                </div>
+
+                <div className="divider" />
+
+                <Link to="/orders" onClick={() => setOpenProfile(false)}>
+                  My Orders
+                </Link>
+
+                <button className="logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="profile-info muted">
+                  Please login to continue
+                </div>
+
+                <button
+                  className="login-link"
+                  onClick={() => {
+                    setOpenProfile(false);
+                    navigate('/auth');
+                  }}
+                >
+                  Login
+                </button>
+              </>
+            )}
+          </div>
+        )}
+      </div>
     </header>
   );
 };
