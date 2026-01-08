@@ -20,7 +20,7 @@ export const CartProvider = ({ children }) => {
     const storedCart = localStorage.getItem('cart');
     return storedCart ? JSON.parse(storedCart) : [];
   });
-
+ 
   /*
     Sync cart state with localStorage whenever cartItems changes.
     This keeps localStorage as the single source of persistence.

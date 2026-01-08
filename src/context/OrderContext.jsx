@@ -6,19 +6,20 @@ import { createContext, useContext, useEffect, useState } from "react";
 const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
-  const [orders, setOrders] = useState([]);
+  // Initialize orders from localStorage
+  const [orders, setOrders] = useState(() => {
+    const storedOrders = localStorage.getItem("orders");
+    return storedOrders ? JSON.parse(storedOrders) : [];
+  });
 
-  // Load existing orders from localStorage on app load
+  // Sync orders to localStorage whenever orders change
   useEffect(() => {
-    const storedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    setOrders(storedOrders);
-  }, []);
+    localStorage.setItem("orders", JSON.stringify(orders));
+  }, [orders]);
 
-  // Save a new order
+  // Add new order
   const addOrder = (order) => {
-    const updatedOrders = [order, ...orders];
-    setOrders(updatedOrders);
-    localStorage.setItem("orders", JSON.stringify(updatedOrders));
+    setOrders(prev => [order, ...prev]);
   };
 
   return (
@@ -28,5 +29,5 @@ export const OrderProvider = ({ children }) => {
   );
 };
 
-// Custom hook for cleaner imports
+// Custom hook
 export const useOrders = () => useContext(OrderContext);

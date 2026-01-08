@@ -16,7 +16,7 @@
 
 /* Offset fixed navbar height */
 .app-content {
-  padding-top: 64px;        /* MUST match navbar height */
+  padding-top: 80px;        /* MUST match navbar height */
 }
 
 /* Global typography */

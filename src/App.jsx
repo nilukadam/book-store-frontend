@@ -1,6 +1,4 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
@@ -35,9 +33,9 @@ function App() {
     <>
       {/* Render Navbar only on authenticated pages */}
       {!hideHeader && <Navbar />}
-
+      
       {/* Main content wrapper for all routed pages */}
-      <main style={{ padding: '20px' }}>
+      <main  style={{ padding: '20px' }}>
         <Routes>
           {/* Public Routes (accessible without login) */}
           <Route path='auth' element={<Auth/>}/>

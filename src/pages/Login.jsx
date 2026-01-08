@@ -36,6 +36,7 @@ const Login = () => {
     // Validate credentials
     if (email === storedUser.email && password === storedUser.password) {
       localStorage.setItem("authUser", JSON.stringify({ email }));
+      localStorage.setItem("isLoggedIn", "true")
       navigate("/");
     } else {
       alert("Invalid email or password");

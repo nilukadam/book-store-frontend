@@ -14,7 +14,7 @@ const Auth = () => {
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
 
-  return (
+  return ( 
     <>
       {mode === "signup" ? <Signup /> : <Login />}
     </>
