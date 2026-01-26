@@ -1,0 +1,34 @@
+/* Auth page container */
+.auth-page {
+    min-height: calc(100vh - 72px); /* below navbar */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 48px;
+  }
+  
+  /* Auth card */
+  .auth-card {
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  }
+  
+  /* Card heading */
+  .auth-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  
+  /* Subtitle */
+  .auth-subtitle {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 24px;
+  }
+  
+  /* Bottom helper text */
+  .auth-footer {
+    margin-top: 12px;
+    font-size: 14px;
+  }
+  

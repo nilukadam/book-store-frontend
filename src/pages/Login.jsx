@@ -7,17 +7,20 @@ import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import PageHeader from "../components/ui/PageHeader";
 
+/* Auth-specific styling */
+import "../style/Auth.css";
+
 /*
   Login Page
   Purpose:
   - Authenticate existing users (mock auth)
-  - Provide a calm, trustworthy login experience
-  - UI-focused refinement (no logic changes)
+  - Maintain clean, professional UI
+  - No business logic beyond basic validation
 */
 const Login = () => {
   const navigate = useNavigate();
 
-  // Local form state
+  // Form state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,7 +30,7 @@ const Login = () => {
 
     const storedUser = JSON.parse(localStorage.getItem("user"));
 
-    // If user is not registered
+    // No registered user found
     if (!storedUser) {
       alert("Account not found. Please sign up first.");
       return;
@@ -35,8 +38,8 @@ const Login = () => {
 
     // Validate credentials
     if (email === storedUser.email && password === storedUser.password) {
+      localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("authUser", JSON.stringify({ email }));
-      localStorage.setItem("isLoggedIn", "true")
       navigate("/");
     } else {
       alert("Invalid email or password");
@@ -45,60 +48,56 @@ const Login = () => {
 
   return (
     <>
-      {/* Page title */}
-      <PageHeader title="Login" />
+      
+      {/* Centered auth layout */}
+      <div className="auth-page">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-5">
+          <Card className="p-4 p-md-5 auth-card">
+            {/* Card heading */}
+            <h3 className="auth-title">Welcome back</h3>
+            <p className="auth-subtitle">
+              Log in to continue exploring books.
+            </p>
 
-      {/* Centered login card */}
-      <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-12 col-sm-10 col-md-8 col-lg-5">
-            <Card className="p-4 p-md-5">
-              {/* Heading */}
-              <h3 className="mb-2">Welcome back</h3>
-              <p className="text-muted mb-4">
-                Log in to continue exploring books.
-              </p>
-
-              {/* Login form */}
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <Input
-                    label="Email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <Input
-                    label="Password"
-                    type="password"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-100 mb-3"
-                  disabled={!email || !password}
-                >
-                  Login
-                </Button>
-              </form>
-
-              {/* Secondary action */}
-              <div className="text-center">
-                <small>
-                  Don’t have an account?{" "}
-                  <Link to="/auth?mode=signup">Create an account</Link>
-                </small>
+            {/* Login form */}
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <Input
+                  label="Email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
-            </Card>
-          </div>
+
+              <div className="mb-4">
+                <Input
+                  label="Password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-100 mb-3"
+                disabled={!email || !password}
+              >
+                Login
+              </Button>
+            </form>
+
+            {/* Secondary navigation */}
+            <div className="text-center auth-footer">
+              <small>
+                Don’t have an account?{" "}
+                <Link to="/auth?mode=signup">Create an account</Link>
+              </small>
+            </div>
+          </Card>
         </div>
       </div>
     </>

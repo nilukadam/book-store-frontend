@@ -8,15 +8,19 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Cart data
-  const { cartItems } = useCart();
-  const cartCount = getCartItemCount(cartItems);
+  /* -------------------- CART & ORDERS DATA -------------------- */
+  const { cartItems} = useCart();
+  const cartCount = cartItems.length;
 
-  // Auth data (temporary localStorage-based)
+  const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+  const orderCount = storedOrders.length;
+
+
+  /* -------------------- AUTH DATA (LOCAL STORAGE) -------------------- */
   const isLoggedIn = localStorage.getItem('isLoggedIn');
   const user = JSON.parse(localStorage.getItem('user'));
 
-  // Profile dropdown state
+  /* -------------------- PROFILE DROPDOWN -------------------- */
   const [openProfile, setOpenProfile] = useState(false);
   const profileRef = useRef(null);
 
@@ -32,9 +36,11 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Logout handler
+  /* -------------------- LOGOUT -------------------- */
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('user');
+    setOpenProfile(false);
     navigate('/auth');
   };
 
@@ -53,7 +59,10 @@ const Header = () => {
           Home
         </Link>
 
-        <Link to="/cart" className={location.pathname === '/cart' ? 'active' : ''}>
+        <Link
+          to="/cart"
+          className={location.pathname === '/cart' ? 'active' : ''}
+        >
           Cart
           {cartCount > 0 && (
             <span className="cart-badge">{cartCount}</span>
@@ -65,6 +74,9 @@ const Header = () => {
           className={location.pathname === '/orders' ? 'active' : ''}
         >
           Orders
+          {orderCount > 0 && (
+            <span className="cart-badge">{orderCount}</span>
+          )}
         </Link>
       </nav>
 
@@ -90,11 +102,17 @@ const Header = () => {
 
                 <div className="divider" />
 
-                <Link to="/orders" onClick={() => setOpenProfile(false)}>
+                <Link
+                  to="/orders"
+                  onClick={() => setOpenProfile(false)}
+                >
                   My Orders
                 </Link>
 
-                <button className="logout-btn" onClick={handleLogout}>
+                <button
+                  className="logout-btn"
+                  onClick={handleLogout}
+                >
                   Logout
                 </button>
               </>

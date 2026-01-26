@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 import books from "../data/books";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import "../style/BookDetails.css";
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const BookDetails = () => {
 
   const handleAddToCart = () => {
     addToCart(book);
-    navigate("/cart")
+    navigate("/cart");
   };
 
   const handleOrderNow = () => {
@@ -26,43 +27,42 @@ const BookDetails = () => {
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "720px" }}>
-      <p className="text-muted mb-2" style={{ fontSize: "14px" }}>
-        Home / Books / {book.title}
-      </p>
-
-      <Card className="p-4">
+    <div className="container mt-5 book-details-container">
+      
+       <Card className="book-details-card">
         {/* Book Cover */}
-        <div className="text-center mb-3">
+        <div className="book-image-wrapper">
           <img
             src={book.cover}
             alt={book.title}
-            className="img-fluid rounded"
-            style={{ maxHeight: "380px", objectFit: "contain" }}
+            className="book-image"
           />
         </div>
 
         {/* Book Info */}
-        <h3 className="mb-1">{book.title}</h3>
-        <p className="text-muted mb-2">— by {book.author}</p>
-        <p className="mb-2">⭐ {book.rating} / 5</p>
-        <p className="fs-4 fw-bold mb-3">₹{book.price}</p>
+        <div className="book-info">
+          <h3 className="book-title size-30px">{book.title}</h3>
+          <p className="book-author">— by {book.author}</p>
 
-        <p className="text-secondary mb-4" style={{ lineHeight: "1.6" }}>
-          {book.description}
-        </p>
+          <p className="book-rating">⭐ {book.rating} / 5</p>
+          <p className="book-price">₹{book.price}</p>
 
-        <hr className="my-4" />
+          <p className="book-description">
+            {book.description}
+          </p>
 
-        {/* Actions */}
-        <div className="d-flex gap-3">
-          <Button onClick={handleAddToCart}>
-            Add to Cart
-          </Button>
+          <hr />
 
-          <Button variant="outline" onClick={handleOrderNow}>
-            Order Now
-          </Button>
+          {/* Actions */}
+          <div className="book-actions">
+            <Button onClick={handleAddToCart}>
+              Add to Cart
+            </Button>
+
+            <Button variant="outline" onClick={handleOrderNow}>
+              Order Now
+            </Button>
+          </div>
         </div>
       </Card>
     </div>
