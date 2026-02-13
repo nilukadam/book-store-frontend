@@ -1,3 +1,4 @@
+import React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 /*
@@ -12,21 +13,22 @@ const CartContext = createContext(null);
 */
 export const CartProvider = ({ children }) => {
 
-  /*
-    Initialize cart state from localStorage.
-    This ensures cart data persists even after page refresh.
-  */
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const [cartItems, setCartItems] = useState(() => {
-    const storedCart = localStorage.getItem('cart');
+    if (!user?.email) return [];
+
+    const storedCart = localStorage.getItem(`cart_${user.email}`);
     return storedCart ? JSON.parse(storedCart) : [];
   });
  
-  /*
-    Sync cart state with localStorage whenever cartItems changes.
-    This keeps localStorage as the single source of persistence.
-  */
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
+    if (user?.email) {
+       localStorage.setItem(
+        `cart_${user.email}`,
+        JSON.stringify(cartItems)
+      );
+    }
   }, [cartItems]);
 
   /*

@@ -5,6 +5,7 @@
   - Standard input with label and error support
   - UI only (logic handled by page)
 */
+import React from "react";
 
 const Input = ({
     label,

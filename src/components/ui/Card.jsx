@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import React from "react";
 const Card = ({ children, className = "" }) => {
   return (
     <div className={`card h-100 ${className}`}>

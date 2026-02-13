@@ -5,6 +5,7 @@
   - Display consistent empty screens
   - Reusable across pages (Cart, Orders, etc.)
 */
+import React from "react";
 
 const EmptyState = ({ title, message, action }) => {
     return (

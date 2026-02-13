@@ -1,21 +1,25 @@
-import { useState } from "react";
+import React, { useState } from "react";
+
 import booksData from "../data/books";
 import BookCard from "../components/BookCard";
 
 const Home = () => {
-  // search state
+  /* -------------------- STATE -------------------- */
   const [searchTerm, setSearchTerm] = useState("");
 
-  // filter books (logic unchanged)
+  /* -------------------- DERIVED DATA -------------------- */
   const filteredBooks = booksData.filter((book) =>
-    book.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    book.title
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase())
   );
 
+  /* -------------------- MAIN UI -------------------- */
   return (
     <div className="container mt-5">
       <h2 className="mb-4">Available Books</h2>
 
-      {/* Search input */}
+      {/* Search Input */}
       <input
         type="text"
         className="form-control form-control-sm mb-4"
@@ -24,11 +28,11 @@ const Home = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      {/* Empty state */}
+      {/* Books Grid */}
       {filteredBooks.length === 0 ? (
         <p className="text-center text-muted">
           No books found for "{searchTerm}"
-        </p> 
+        </p>
       ) : (
         <div className="row g-4">
           {filteredBooks.map((book) => (

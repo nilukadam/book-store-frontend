@@ -25,10 +25,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       CartProvider wraps the entire app to provide
       centralized cart state access across all pages.
     */}
-    <CartProvider>
-      <OrderProvider>
+    <CartProvider >
+      <OrderProvider >
         <App/>
       </OrderProvider>
     </CartProvider>
+
   </BrowserRouter>
 );

@@ -5,6 +5,7 @@
   - Standard page title across app
   - Optional subtitle for context
 */
+import React from "react";
 
 const PageHeader = ({ title, subtitle }) => {
     return (

@@ -1,19 +1,15 @@
+import React from "react";
 import { useSearchParams } from "react-router-dom";
 
-/* Auth screens */
 import Login from "./Login";
 import Signup from "./Signup";
 
-/*
-  Auth Page
-  Purpose:
-  - Single entry point for authentication
-  - Decide Login / Signup based on URL query
-*/
 const Auth = () => {
+  /* -------------------- QUERY PARAMS -------------------- */
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
 
+  /* -------------------- RENDER -------------------- */
   return mode === "signup" ? <Signup /> : <Login />;
 };
 

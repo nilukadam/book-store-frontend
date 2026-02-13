@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
@@ -38,26 +39,14 @@ function App() {
       <main  style={{ padding: '20px' }}>
         <Routes>
           {/* Public Routes (accessible without login) */}
-          <Route path='auth' element={<Auth/>}/>
+          <Route path="/" element={<Home />}/>
+          <Route path="/book/:id" element={< BookDetails />}/>
+          <Route path='/cart' element={<Cart />}/>
+          <Route path='/auth' element={<Auth />}/>
+          
+
           {/* Protected Routes (require authentication) */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/cart"
-            element={
-              <ProtectedRoute>
-                <Cart />
-              </ProtectedRoute>
-            }
-          />
-
+         
           <Route
             path="/orders"
             element={
@@ -66,14 +55,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/book/:id"
-            element={
-              <ProtectedRoute>
-                <BookDetails/>
-              </ProtectedRoute>
-            }
-          />
+
         </Routes>
       </main>
     </>

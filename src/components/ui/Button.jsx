@@ -6,6 +6,7 @@
   - Bootstrap based
   - Reusable across pages
 */
+import React from "react";
 
 const Button = ({
   children,
