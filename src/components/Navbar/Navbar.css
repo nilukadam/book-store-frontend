@@ -1,4 +1,7 @@
-/* ===== HEADER ===== */
+/* ==============================
+   HEADER LAYOUT
+============================== */
+
 .header {
   position: fixed;
   top: 0;
@@ -16,22 +19,30 @@
   z-index: 1000;
 }
 
-/* ===== BRAND ===== */
+/* ==============================
+   BRAND
+============================== */
+
 .logo {
   font-size: 1.6rem;
   font-weight: 700;
   color: #111827;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .logo:hover {
   color: #0d6efd;
 }
 
-/* ===== CENTER NAV ===== */
+/* ==============================
+   CENTER NAV
+============================== */
+
 .center-nav {
   justify-self: center;
   display: flex;
+  align-items: center;
   gap: 28px;
 }
 
@@ -41,7 +52,8 @@
   font-weight: 600;
   color: #1f2937;
   text-decoration: none;
-  padding: 6px 2px;
+  padding: 8px 4px;
+  transition: color 0.2s ease;
 }
 
 .center-nav a:hover {
@@ -63,7 +75,10 @@
   border-radius: 2px;
 }
 
-/* ===== CART BADGE ===== */
+/* ==============================
+   BADGE
+============================== */
+
 .cart-badge {
   position: absolute;
   top: -6px;
@@ -75,7 +90,10 @@
   border-radius: 999px;
 }
 
-/* ===== AUTH / PROFILE ===== */
+/* ==============================
+   PROFILE
+============================== */
+
 .nav-right {
   justify-self: end;
   position: relative;
@@ -91,6 +109,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.profile-btn:hover {
+  border-color: #0d6efd;
 }
 
 .profile-icon {
@@ -98,7 +121,10 @@
   color: #374151;
 }
 
-/* ===== PROFILE DROPDOWN ===== */
+/* ==============================
+   PROFILE DROPDOWN
+============================== */
+
 .profile-dropdown {
   position: absolute;
   top: 52px;
@@ -165,4 +191,56 @@
 
 .login-link {
   color: #0d6efd;
+}
+
+/* ==========================================
+   RESPONSIVE PREMIUM MOBILE REFINEMENT
+========================================== */
+
+@media (max-width: 768px) {
+
+  .header {
+    padding: 0 16px;
+    height: 72px;
+  }
+
+  /* Responsive logo scaling */
+  .logo {
+    font-size: clamp(1.25rem, 3.5vw, 1.45rem);
+  }
+
+  /* Balanced nav spacing */
+  .center-nav {
+    gap: clamp(14px, 4vw, 20px);
+  }
+
+  .center-nav a {
+    font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+    padding: 8px 2px;
+  }
+
+  /* Stronger active indicator */
+  .center-nav a.active::after {
+    height: 3px;
+    bottom: -6px;
+  }
+
+  /* Badge refinement */
+  .cart-badge {
+    top: -4px;
+    right: -8px;
+    font-size: 9px;
+    padding: 2px 5px;
+  }
+
+  /* Profile scaling */
+  .profile-btn {
+    width: clamp(36px, 8vw, 42px);
+    height: clamp(36px, 8vw, 42px);
+  }
+
+  .profile-icon {
+    font-size: clamp(14px, 3vw, 18px);
+  }
+
 }

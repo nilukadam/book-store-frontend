@@ -6,7 +6,7 @@ import { useOrders } from "../../context/OrderContext";
 import { useAuth } from "../../hooks/useAuth";
 
 import "./Navbar.css";
-
+ 
 const Navbar = () => {
   /* -------------------- ROUTER -------------------- */
   const navigate = useNavigate();

@@ -9,21 +9,19 @@ import { useOrders } from "../context/OrderContext";
 import EmptyState from "../components/ui/EmptyState";
 import Button from "../components/ui/Button";
 
+import "../style/Cart.css";
+
 const Cart = () => {
-  /* -------------------- STATE -------------------- */
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
-  /* -------------------- HOOKS -------------------- */
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { cartItems, increaseQty, decreaseQty, removeFromCart } = useCart();
   const { addOrder } = useOrders();
 
-  /* -------------------- DERIVED DATA -------------------- */
   const { totalAmount } = useCartSummary(cartItems);
 
-  /* -------------------- HANDLERS -------------------- */
   const handlePlaceOrder = () => {
     if (!isAuthenticated) {
       setShowAuthPopup(true);
@@ -47,106 +45,131 @@ const Cart = () => {
     navigate("/orders", { state: { fromOrder: true } });
   };
 
-  /* -------------------- EMPTY STATE -------------------- */
   if (cartItems.length === 0) {
     return (
       <div className="container">
         <EmptyState
           title="Your cart is empty"
           message="Looks like you haven’t added any books yet."
-          action={
-            <Button onClick={() => navigate("/")}>
-              Browse Books
-            </Button>
-          }
+          action={<Button onClick={() => navigate("/")}>Browse Books</Button>}
         />
       </div>
     );
   }
 
-  /* -------------------- MAIN UI -------------------- */
   return (
     <>
-      <div className="container mt-4">
-        <h2 className="mb-4 fw-semibold">Your Cart</h2>
+      <div className="container mt-4 cart-page">
+        <h2 className="cart-page-title fw-semibold">
+          Your Cart ({cartItems.length})
+        </h2>
 
         <div className="row">
           {/* Cart Items */}
-          <div className="col-md-8">
+          <div className="col-lg-8">
             {cartItems.map((item) => (
-              <div key={item.id} className="card mb-3 p-4 border rounded-3">
+              <div key={item.id} className="cart-item-block">
+
                 <div className="row align-items-center">
-                  <div className="col-3 col-md-2">
+                  
+                  <div className="col-4 col-md-3">
                     <img
                       src={item.cover}
                       alt={item.name}
-                      className="img-fluid rounded cart-item-image"
+                      className="img-fluid cart-item-image"
                     />
                   </div>
 
-                  <div className="col-6 col-md-7">
-                    <h5 className="mb-1">{item.name}</h5>
-                    <p className="text-muted mb-1 small">
+                  <div className="col-8 col-md-6">
+                    <h5 className="cart-item-title">{item.name}</h5>
+                    <p className="text-muted small mb-1">
                       by {item.author}
                     </p>
-                    <p className="fw-bold mb-2">₹{item.price}</p>
-                  </div>
 
-                  <div className="d-flex align-items-center gap-2 mt-2">
-                    <div className="d-flex justify-content-end gap-2 mb-2">
+                    <p className="cart-item-price mb-1">
+                      ₹{item.price}
+                    </p>
+
+                    <div className="quantity-wrapper">
+                      <button
+                        className="btn btn-outline-secondary btn-sm"
+                        onClick={() => decreaseQty(item.id)}
+                        disabled={item.quantity === 1}
+                      >
+                        −
+                      </button>
+
+                      <span className="quantity-value">
+                        {item.quantity}
+                      </span>
+
                       <button
                         className="btn btn-outline-secondary btn-sm"
                         onClick={() => increaseQty(item.id)}
                       >
                         +
                       </button>
-
-                      <button
-                        className="btn btn-outline-secondary btn-sm"
-                        disabled={item.quantity === 1}
-                        onClick={() => decreaseQty(item.id)}
-                      >
-                        −
-                      </button>
                     </div>
 
                     <button
-                      className="btn btn-outline-danger btn-sm"
+                      className="remove-link"
                       onClick={() => removeFromCart(item.id)}
                     >
                       Remove
                     </button>
                   </div>
+
+                  <div className="col-md-3 text-md-end mt-3 mt-md-0">
+                    <div className="line-total">
+                      ₹{item.price * item.quantity}
+                    </div>
+                  </div>
+
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Cart Summary */}
+          {/* Summary */}
           <div className="col-lg-4">
-            <div className="card p-4 sticky-top cart-summary">
-              <h5 className="fw-bold mb-3 text-uppercase">
+            <div className="cart-summary sticky-top">
+              <h5 className="summary-title">
                 Order Summary
               </h5>
 
-              <div className="d-flex justify-content-between mt-3 mb-4">
-                <span className="fw-medium">Total Amount</span>
-                <span className="fw-bold fs-5">₹{totalAmount}</span>
+              <div className="summary-row">
+                <span>Subtotal</span>
+                <span>₹{totalAmount}</span>
+              </div>
+
+              <div className="summary-row text-muted small">
+                <span>Shipping</span>
+                <span>Free</span>
+              </div>
+
+              <hr />
+
+              <div className="summary-total">
+                <span>Total</span>
+                <span>₹{totalAmount}</span>
               </div>
 
               <button
-                className="btn btn-primary w-100"
+                className="btn btn-primary w-100 checkout-btn"
                 disabled={isPlacingOrder}
                 onClick={handlePlaceOrder}
               >
-                {isPlacingOrder ? "Placing Order..." : "Proceed to Order"}
+                {isPlacingOrder ? "Placing Order..." : "Proceed to Checkout"}
               </button>
+
+              <p className="checkout-microcopy text-center mt-2">
+                Secure checkout · Easy returns · Fast delivery
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Auth Popup */}
       {showAuthPopup && (
         <div className="modal-overlay">
           <div className="modal-box text-center">

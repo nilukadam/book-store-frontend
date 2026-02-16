@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar/Navbar';
 import BookDetails from './pages/BookDetails';
 import Auth from './pages/Auth';
+import ScrollToTop from "./components/ScrollToTop";
 
 /*
   Root application component.
@@ -32,6 +33,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop/>
       {/* Render Navbar only on authenticated pages */}
       {!hideHeader && <Navbar />}
       

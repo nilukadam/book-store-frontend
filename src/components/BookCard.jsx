@@ -6,7 +6,7 @@ import Button from "./ui/Button";
 
 import { formatCurrency } from "../utils/formatters";
 
-import "./ui/bookCard.css";
+import "../style/bookCard.css";
 
 const BookCard = ({ book }) => {
   /* -------------------- HOOKS -------------------- */
@@ -19,6 +19,22 @@ const BookCard = ({ book }) => {
   const handleViewDetails = () => {
     navigate(`/book/${book.id}`);
   };
+
+  const hasDiscount =
+    book.originalPrice && book.originalPrice > book.price;
+
+  const discountPercent = hasDiscount
+    ? Math.round(
+        ((book.originalPrice - book.price) /
+          book.originalPrice) *
+          100
+      )
+    : null;
+
+  const savings = hasDiscount
+    ? book.originalPrice - book.price
+    : null;
+
 
   /* -------------------- MAIN UI -------------------- */
   return (
@@ -36,26 +52,53 @@ const BookCard = ({ book }) => {
           {book.title}
         </h6>
 
-        <p className="book-author">
-          {book.author}
+        <p className="book-description">
+           {book.description}
         </p>
+
+        <p className="book-meta">
+           {book.format} · {book.language}
+        </p>
+
+        <p className="book-author">
+           {book.author}
+        </p>
+
 
         <p className="book-rating">
           ⭐ {book.rating} / 5
         </p>
 
-        <div className="book-card-footer">
-          <span className="book-price">
-            {formatCurrency(book.price)}
-          </span>
+        <div className="book-price-section">
+        <span className="book-price">
+              {formatCurrency(book.price)}
+        </span>
 
-          <Button
-            size="sm"
-            onClick={handleViewDetails}
-          >
-            View Details
-          </Button>
+          {hasDiscount && (
+            <div className="book-discount-info">
+              <span className="original-price">
+                {formatCurrency(book.originalPrice)}
+              </span>
+              <span className="discount-percent">
+                {discountPercent}% Off
+              </span>
+            </div>
+          )}
+
+          {hasDiscount && (
+            <p className="book-savings">
+              You save {formatCurrency(savings)}
+            </p>
+         )}
         </div>
+
+         <Button
+          size="sm"
+          onClick={handleViewDetails}
+        >
+          View Details
+        </Button>
+
       </div>
     </Card>
   );

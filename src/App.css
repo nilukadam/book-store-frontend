@@ -50,6 +50,10 @@ body {
 .card {
   padding: 1.25rem;         /* reduced from 2em (better balance) */
 }
+.custom-card {
+  background: #ffffff;
+  border-radius: 16px;
+}
 
 /* Empty cart screen */
 .empty-cart {

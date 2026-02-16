@@ -1,0 +1,128 @@
+/* ===============================
+   BOOK CARD – PROFESSIONAL GRID
+================================= */
+
+.book-card {
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* IMAGE */
+.book-card-image-wrapper {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.book-card-image {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* BODY */
+.book-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* TITLE */
+.book-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+/* DESCRIPTION – FIXED HEIGHT FOR ALIGNMENT */
+.book-description {
+  font-size: 0.82rem;
+  color: #6c757d;
+  margin-bottom: 8px;
+  line-height: 1.3;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  min-height: 34px;
+}
+
+/* META */
+.book-meta {
+  font-size: 0.75rem;
+  color: #9aa0a6;
+  margin-bottom: 6px;
+}
+
+/* AUTHOR */
+.book-author {
+  font-size: 0.85rem;
+  color: #495057;
+  margin-bottom: 6px;
+}
+
+/* RATING */
+.book-rating {
+  font-size: 0.8rem;
+  color: #999;
+  margin-bottom: 12px;
+}
+
+/* PRICE SECTION */
+.book-price-section {
+  margin-top: auto; /* pushes everything below upward */
+  margin-bottom: 12px;
+}
+
+.book-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* DISCOUNT */
+.book-discount-info {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.discount-percent {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #198754;
+}
+
+.book-savings {
+  font-size: 0.75rem;
+  color: #198754;
+  margin-top: 4px;
+}
+
+/* BUTTON – ALWAYS BOTTOM */
+.book-card-body button {
+  width: 100%;
+}

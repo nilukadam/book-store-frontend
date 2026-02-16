@@ -1,0 +1,177 @@
+/* ===============================
+   ORDERS PAGE – STRUCTURED COMMERCIAL
+================================ */
+
+.orders-page {
+  padding-bottom: 60px;
+}
+
+/* ------------------------------
+   Order Card
+-------------------------------- */
+
+.order-card {
+  padding: 28px;
+  margin-bottom: 32px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+}
+
+/* ------------------------------
+   Success Message
+-------------------------------- */
+
+.order-success {
+  background: #e6f4ea;
+  color: #198754;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+/* ------------------------------
+   Header Section
+-------------------------------- */
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.order-id {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.order-date {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+/* Status Badge */
+
+.order-status {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.order-status.placed {
+  background: #e7f1ff;
+  color: #0d6efd;
+}
+
+.order-status.processing {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.order-status.delivered {
+  background: #e6f4ea;
+  color: #198754;
+}
+
+/* ------------------------------
+   Order Items
+-------------------------------- */
+
+.order-items {
+  margin-top: 16px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ececec;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item-image {
+  width: 70px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.order-item-info {
+  flex: 1;
+}
+
+.order-item-info h6 {
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.order-item-price {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.order-item-total {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ------------------------------
+   Order Summary
+-------------------------------- */
+
+.order-summary {
+  margin-top: 16px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Divider */
+
+.order-card hr {
+  border: none;
+  height: 1px;
+  background: #ececec;
+  margin: 16px 0;
+}
+
+/* ------------------------------
+   Responsive
+-------------------------------- */
+
+@media (max-width: 768px) {
+
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .order-item {
+    align-items: flex-start;
+  }
+
+  .order-item-total {
+    margin-top: 8px;
+  }
+}

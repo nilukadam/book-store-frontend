@@ -11,9 +11,11 @@ import Button from "../components/ui/Button";
 import "../style/BookDetails.css";
 
 const BookDetails = () => {
-  /* -------------------- HOOKS -------------------- */
+  /* -------------------- ROUTING -------------------- */
   const { id } = useParams();
   const navigate = useNavigate();
+
+  /* -------------------- CART -------------------- */
   const { addToCart } = useCart();
 
   /* -------------------- DATA -------------------- */
@@ -27,17 +29,34 @@ const BookDetails = () => {
     );
   }
 
+  const hasDiscount =
+    book.originalPrice &&
+    book.originalPrice > book.price;
+
+  const discountPercent = hasDiscount
+    ? Math.round(
+        ((book.originalPrice - book.price) /
+          book.originalPrice) *
+          100
+      )
+    : null;
+
+  const savings = hasDiscount
+    ? book.originalPrice - book.price
+    : null;
+
   /* -------------------- HANDLERS -------------------- */
   const handlePurchase = () => {
     addToCart(book);
     navigate("/cart");
   };
 
-  /* -------------------- MAIN UI -------------------- */
+  /* -------------------- UI -------------------- */
   return (
-    <div className="container mt-5 book-details-container">
+    <div className="container book-details-container">
       <Card className="book-details-card">
-        {/* Book Cover */}
+
+        {/* Cover */}
         <div className="book-image-wrapper">
           <img
             src={book.cover}
@@ -46,11 +65,13 @@ const BookDetails = () => {
           />
         </div>
 
-        {/* Book Info */}
+        {/* Content */}
         <div className="book-info">
-          <h3 className="book-title size-30px">
+
+          {/* Title & Basic Info */}
+          <h1 className="book-title">
             {book.title}
-          </h3>
+          </h1>
 
           <p className="book-author">
             — by {book.author}
@@ -60,15 +81,86 @@ const BookDetails = () => {
             ⭐ {book.rating} / 5
           </p>
 
-          <p className="book-price">
-            {formatCurrency(book.price)}
-          </p>
+          {/* Price Section */}
+          <div className="book-price-section">
+            <span className="book-price">
+              {formatCurrency(book.price)}
+            </span>
+
+            {hasDiscount && (
+              <div className="discount-info">
+                <span className="original-price">
+                  {formatCurrency(book.originalPrice)}
+                </span>
+                <span className="discount-percent">
+                  {discountPercent}% Off
+                </span>
+              </div>
+            )}
+
+            {hasDiscount && (
+              <p className="savings">
+                You save {formatCurrency(savings)}
+              </p>
+            )}
+          </div>
+
+          {/* Highlights */}
+          <div className="book-highlights">
+            {book.bestseller && (
+              <span className="highlight-badge">
+                Bestseller
+              </span>
+            )}
+
+            <p>{book.format} · {book.language}</p>
+            <p>{book.pages} Pages</p>
+            <p>Delivery in {book.deliveryDays} days</p>
+
+            {book.inStock ? (
+              <p className="in-stock">
+                In Stock
+              </p>
+            ) : (
+              <p className="out-of-stock">
+                Out of Stock
+              </p>
+            )}
+          </div>
+
+          <hr />
+
+          {/* About Section */}
+          <h5 className="section-title">
+            About this book
+          </h5>
 
           <p className="book-description">
             {book.description}
           </p>
 
           <hr />
+
+          {/* Product Meta */}
+          <h5 className="section-title">
+            Product Details
+          </h5>
+
+          <div className="product-meta">
+            <p><strong>Publisher:</strong> {book.publisher}</p>
+            <p><strong>ISBN:</strong> {book.isbn}</p>
+            <p><strong>Language:</strong> {book.language}</p>
+            <p><strong>Pages:</strong> {book.pages}</p>
+          </div>
+
+          <hr />
+
+          {/* Trust Section */}
+          <ul className="trust-strip">
+            <li>✔ Secure Payment</li>
+            <li>✔ Fast Delivery</li>
+            <li>✔ Easy Returns</li>
+          </ul>
 
           {/* Actions */}
           <div className="book-actions">
@@ -83,6 +175,7 @@ const BookDetails = () => {
               Order Now
             </Button>
           </div>
+
         </div>
       </Card>
     </div>
