@@ -5,7 +5,7 @@ I build structured, maintainable, and production-ready React applications that s
 
 ---
 
-# 📚 BookNest — Production-Structured React E-Commerce Frontend
+# 📚 BookNest — Production-Structured React E-Commerce SPA
 
 A system-focused React SPA engineered to simulate a real-world purchase lifecycle — from authentication to order confirmation — with scalable state architecture and deployment-ready routing behavior.
 
@@ -145,3 +145,4 @@ src/
   utils/
   App.jsx
   main.jsx
+
