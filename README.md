@@ -147,7 +147,8 @@ src/
   style/
   utils/
   App.jsx
-  main.jsx
+  main.jsx 
+  ```
 
 ---
 
