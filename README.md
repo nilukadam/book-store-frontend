@@ -35,16 +35,16 @@ https://github.com/nilukadam/book-store-frontend
 ## 🖼 Application Preview
 
 ### 🏠 Home Page
-![Home Page](./screenshots/home.png)
+![Home Page](./screenshots/Home.png)
 
 ### 📖 Product on Home Page
-![Product Details](./screenshots/home1.png)
+![Product Details](./screenshots/Home1.png)
 
 ### 🛒 Cart System
-![Cart Page](./screenshots/cart.png)
+![Cart Page](./screenshots/Cart.png)
 
 ### 📦 Orders & Confirmation Flow
-![Orders Page](./screenshots/orders.png)
+![Orders Page](./screenshots/Orders.png)
 
 ---
 
