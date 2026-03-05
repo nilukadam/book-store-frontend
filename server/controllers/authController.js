@@ -22,7 +22,7 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // create user
-    const user = await User.create({
+    await User.create({
       name,
       email,
       password: hashedPassword
@@ -33,10 +33,11 @@ const register = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({
-      message: "Server error"
-    });
-  }
+  console.error(error);
+  res.status(500).json({
+    message: "Server error"
+  });
+}
 };
 
 
@@ -87,10 +88,11 @@ const login = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({
-      message: "Server error"
-    });
-  }
+  console.error(error);
+  res.status(500).json({
+    message: "Server error"
+  });
+}
 };
 
 
