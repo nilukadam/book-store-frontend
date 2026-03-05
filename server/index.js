@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes")
 
 // Load environment variables
 dotenv.config();
@@ -15,10 +16,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
 // Test Route
 app.get("/", (req, res) => {
   res.send("API Running");
 });
+
+// usr Route
+
+app.use("/api/auth", authRoutes)
 
 const PORT = process.env.PORT || 5000;
 
