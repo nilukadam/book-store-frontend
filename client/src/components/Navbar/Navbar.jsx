@@ -6,7 +6,7 @@ import { useOrders } from "../../context/OrderContext";
 import { useAuth } from "../../hooks/useAuth";
 
 import "./Navbar.css";
- 
+
 const Navbar = () => {
   /* -------------------- ROUTER -------------------- */
   const navigate = useNavigate();
@@ -26,20 +26,16 @@ const Navbar = () => {
   const [openProfile, setOpenProfile] = useState(false);
   const profileRef = useRef(null);
 
-  /* -------------------- EFFECTS -------------------- */
+  /* -------------------- CLOSE DROPDOWN ON OUTSIDE CLICK -------------------- */
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(e.target)
-      ) {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
         setOpenProfile(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   /* -------------------- HANDLERS -------------------- */
@@ -54,13 +50,12 @@ const Navbar = () => {
     navigate("/auth");
   };
 
-  const isActive = (path) =>
-    location.pathname === path ? "active" : "";
+  const isActive = (path) => (location.pathname === path ? "active" : "");
 
-  /* -------------------- MAIN UI -------------------- */
+  /* -------------------- UI -------------------- */
   return (
     <header className="header">
-      {/* LEFT: Brand */}
+      {/* LEFT: Logo */}
       <div className="nav-left">
         <Link to="/" className="logo">
           BookNest
@@ -73,42 +68,31 @@ const Navbar = () => {
           Home
         </Link>
 
-        <Link
-          to="/cart"
-          className={isActive("/cart")}
-        >
+        <Link to="/cart" className={isActive("/cart")}>
           Cart
-          {cartCount > 0 && (
-            <span className="cart-badge">
-              {cartCount}
-            </span>
-          )}
+          {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
         </Link>
 
-        <Link
-          to="/orders"
-          className={isActive("/orders")}
-        >
+        <Link to="/orders" className={isActive("/orders")}>
           Orders
-          {orderCount > 0 && (
-            <span className="cart-badge">
-              {orderCount}
-            </span>
-          )}
+          {orderCount > 0 && <span className="cart-badge">{orderCount}</span>}
         </Link>
+
+        {/* Admin link only visible for admin users */}
+        {isAuthenticated && user?.role === "admin" && (
+          <Link to="/admin/products" className={isActive("/admin/products")}>
+            Admin
+          </Link>
+        )}
       </nav>
 
       {/* RIGHT: Profile */}
       <div className="nav-right" ref={profileRef}>
         <button
           className="profile-btn"
-          onClick={() =>
-            setOpenProfile((prev) => !prev)
-          }
+          onClick={() => setOpenProfile((prev) => !prev)}
         >
-          <span className="profile-icon">
-            👤
-          </span>
+          <span className="profile-icon">👤</span>
         </button>
 
         {openProfile && (
@@ -116,30 +100,17 @@ const Navbar = () => {
             {isAuthenticated ? (
               <>
                 <div className="profile-info">
-                  <strong>
-                    {user?.name || "User Name"}
-                  </strong>
-                  <div className="email">
-                    {user?.email ||
-                      "user@email.com"}
-                  </div>
+                  <strong>{user?.name || "User Name"}</strong>
+                  <div className="email">{user?.email || "user@email.com"}</div>
                 </div>
 
                 <div className="divider" />
 
-                <Link
-                  to="/orders"
-                  onClick={() =>
-                    setOpenProfile(false)
-                  }
-                >
+                <Link to="/orders" onClick={() => setOpenProfile(false)}>
                   My Orders
                 </Link>
 
-                <button
-                  className="logout-btn"
-                  onClick={handleLogout}
-                >
+                <button className="logout-btn" onClick={handleLogout}>
                   Logout
                 </button>
               </>
@@ -149,10 +120,7 @@ const Navbar = () => {
                   Please login to continue
                 </div>
 
-                <button
-                  className="login-link"
-                  onClick={handleLoginRedirect}
-                >
+                <button className="login-link" onClick={handleLoginRedirect}>
                   Login
                 </button>
               </>

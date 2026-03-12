@@ -75,7 +75,7 @@ const Cart = () => {
                   <div className="col-4 col-md-3">
                     <img
                       src={item.cover}
-                      alt={item.name}
+                      alt={item.title}
                       className="img-fluid cart-item-image"
                     />
                   </div>

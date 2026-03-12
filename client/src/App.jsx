@@ -7,6 +7,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar/Navbar';
 import BookDetails from './pages/BookDetails';
 import Auth from './pages/Auth';
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminOrders from "./pages/admin/AdminOrders";
 import ScrollToTop from "./components/ScrollToTop";
 
 /*
@@ -57,6 +59,24 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/admin/products"
+            element={
+              <ProtectedRoute>
+                <AdminProducts />
+              </ProtectedRoute>
+             }
+           />
+
+<Route
+  path="/admin/orders"
+  element={
+    <ProtectedRoute>
+      <AdminOrders />
+    </ProtectedRoute>
+  }
+/>
 
         </Routes>
       </main>

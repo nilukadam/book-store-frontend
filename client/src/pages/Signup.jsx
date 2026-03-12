@@ -6,6 +6,8 @@ import { useAuth } from "../hooks/useAuth";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
+import api from "../api/api";
+
 
 import "../style/Auth.css";
 
@@ -29,23 +31,30 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const { name, email, password } = formData;
+  const { name, email, password } = formData;
 
-    if (!name || !email || !password) {
-      alert("All fields are required");
-      return;
-    }
+  if (!name || !email || !password) {
+    alert("All fields are required");
+    return;
+  }
 
-    localStorage.setItem("user", JSON.stringify(formData));
-    localStorage.removeItem("cart");
-    localStorage.removeItem("orders");
+  try {
+    await api.post("/auth/register", {
+      name,
+      email,
+      password,
+    });
 
-    login(formData);
-    navigate("/");
-  };
+    alert("Account created successfully");
+
+    navigate("/auth");
+  } catch (error) {
+    alert(error.response?.data?.message || "Signup failed");
+  }
+};
 
   /* -------------------- MAIN UI -------------------- */
   return (

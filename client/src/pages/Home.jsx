@@ -9,7 +9,7 @@ const Home = () => {
 
   /* -------------------- FILTER + SORT -------------------- */
   const filteredBooks = useMemo(() => {
-    let filtered = booksData.filter((book) =>
+    let filtered = [...booksData].filter((book) =>
       book.title
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase())

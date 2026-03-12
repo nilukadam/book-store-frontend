@@ -53,11 +53,12 @@
   color: #1f2937;
   text-decoration: none;
   padding: 8px 4px;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.15s ease;
 }
 
 .center-nav a:hover {
   color: #0d6efd;
+  transform: translateY(-1px);
 }
 
 .center-nav a.active {
@@ -65,7 +66,7 @@
 }
 
 .center-nav a.active::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: -6px;
@@ -88,6 +89,8 @@
   font-size: 11px;
   padding: 2px 6px;
   border-radius: 999px;
+  min-width: 18px;
+  text-align: center;
 }
 
 /* ==============================
@@ -193,47 +196,27 @@
   color: #0d6efd;
 }
 
-/* ==========================================
-   RESPONSIVE PREMIUM MOBILE REFINEMENT
-========================================== */
+/* ==============================
+   MOBILE
+============================== */
 
 @media (max-width: 768px) {
-
   .header {
     padding: 0 16px;
-    height: 72px;
   }
 
-  /* Responsive logo scaling */
   .logo {
     font-size: clamp(1.25rem, 3.5vw, 1.45rem);
   }
 
-  /* Balanced nav spacing */
   .center-nav {
     gap: clamp(14px, 4vw, 20px);
   }
 
   .center-nav a {
     font-size: clamp(0.85rem, 2.8vw, 0.95rem);
-    padding: 8px 2px;
   }
 
-  /* Stronger active indicator */
-  .center-nav a.active::after {
-    height: 3px;
-    bottom: -6px;
-  }
-
-  /* Badge refinement */
-  .cart-badge {
-    top: -4px;
-    right: -8px;
-    font-size: 9px;
-    padding: 2px 5px;
-  }
-
-  /* Profile scaling */
   .profile-btn {
     width: clamp(36px, 8vw, 42px);
     height: clamp(36px, 8vw, 42px);
@@ -242,5 +225,4 @@
   .profile-icon {
     font-size: clamp(14px, 3vw, 18px);
   }
-
 }

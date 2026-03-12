@@ -19,7 +19,7 @@ const BookDetails = () => {
   const { addToCart } = useCart();
 
   /* -------------------- DATA -------------------- */
-  const book = books.find((b) => b.id === id);
+  const book = books.find((b) => String(b.id) === id);
 
   if (!book) {
     return (
