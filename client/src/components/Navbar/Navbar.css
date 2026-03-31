@@ -195,6 +195,65 @@
 .login-link {
   color: #0d6efd;
 }
+/* ==============================
+   ADMIN DROPDOWN
+============================== */
+
+.admin-menu {
+  position: relative;
+}
+
+.admin-btn {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 4px;
+  transition: color 0.2s ease;
+}
+
+.admin-btn:hover {
+  color: #0d6efd;
+}
+
+/* Dropdown container */
+.admin-dropdown {
+  position: absolute;
+  top: 42px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 180px;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  z-index: 2000;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dropdown links */
+.admin-dropdown a {
+  padding: 10px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #1f2937;
+  transition: background 0.2s ease;
+}
+
+.admin-dropdown a:hover {
+  background-color: #f3f4f6;
+  color: #0d6efd;
+}
+.admin-btn::after {
+  margin-left: 6px;
+}
 
 /* ==============================
    MOBILE

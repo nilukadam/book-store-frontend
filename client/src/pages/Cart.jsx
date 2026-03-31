@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useCart } from "../context/CartContext";
 import { useCartSummary } from "../hooks/useCartSummary";
-import { useOrders } from "../context/OrderContext";
+
+import api from "../api/api";
 
 import EmptyState from "../components/ui/EmptyState";
 import Button from "../components/ui/Button";
@@ -17,12 +18,12 @@ const Cart = () => {
 
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-  const { cartItems, increaseQty, decreaseQty, removeFromCart } = useCart();
-  const { addOrder } = useOrders();
 
+  const { cartItems, increaseQty, decreaseQty, removeFromCart } = useCart();
   const { totalAmount } = useCartSummary(cartItems);
 
-  const handlePlaceOrder = () => {
+  /* ---------- PLACE ORDER ---------- */
+  const handlePlaceOrder = async () => {
     if (!isAuthenticated) {
       setShowAuthPopup(true);
       return;
@@ -32,31 +33,50 @@ const Cart = () => {
 
     setIsPlacingOrder(true);
 
-    const newOrder = {
-      id: `order_${Date.now()}`,
-      items: cartItems,
-      totalAmount,
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const formattedProducts = cartItems.map((item) => ({
+        product: item._id,
+        title: item.title,
+        priceAtPurchase: item.price,
+        quantity: item.quantity,
+      }));
 
-    addOrder(newOrder);
-    cartItems.forEach((item) => removeFromCart(item.id));
+      await api.post("/orders", {
+        products: formattedProducts,
+        totalAmount,
+      });
 
-    navigate("/orders", { state: { fromOrder: true } });
+      // clear cart after success
+      cartItems.forEach((item) => removeFromCart(item._id));
+
+      navigate("/orders");
+
+    } catch (error) {
+      console.error(error);
+      alert("Failed to place order");
+    } finally {
+      setIsPlacingOrder(false);
+    }
   };
 
+  /* ---------- EMPTY CART ---------- */
   if (cartItems.length === 0) {
     return (
       <div className="container">
         <EmptyState
           title="Your cart is empty"
           message="Looks like you haven’t added any books yet."
-          action={<Button onClick={() => navigate("/")}>Browse Books</Button>}
+          action={
+            <Button onClick={() => navigate("/")}>
+              Browse Books
+            </Button>
+          }
         />
       </div>
     );
   }
 
+  /* ---------- MAIN UI ---------- */
   return (
     <>
       <div className="container mt-4 cart-page">
@@ -68,20 +88,20 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="col-lg-8">
             {cartItems.map((item) => (
-              <div key={item.id} className="cart-item-block">
-
+              <div key={item._id} className="cart-item-block">
                 <div className="row align-items-center">
-                  
+
                   <div className="col-4 col-md-3">
                     <img
-                      src={item.cover}
+                      src={item.image}
                       alt={item.title}
                       className="img-fluid cart-item-image"
                     />
                   </div>
 
                   <div className="col-8 col-md-6">
-                    <h5 className="cart-item-title">{item.name}</h5>
+                    <h5 className="cart-item-title">{item.title}</h5>
+
                     <p className="text-muted small mb-1">
                       by {item.author}
                     </p>
@@ -93,7 +113,7 @@ const Cart = () => {
                     <div className="quantity-wrapper">
                       <button
                         className="btn btn-outline-secondary btn-sm"
-                        onClick={() => decreaseQty(item.id)}
+                        onClick={() => decreaseQty(item._id)}
                         disabled={item.quantity === 1}
                       >
                         −
@@ -105,7 +125,7 @@ const Cart = () => {
 
                       <button
                         className="btn btn-outline-secondary btn-sm"
-                        onClick={() => increaseQty(item.id)}
+                        onClick={() => increaseQty(item._id)}
                       >
                         +
                       </button>
@@ -113,7 +133,7 @@ const Cart = () => {
 
                     <button
                       className="remove-link"
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item._id)}
                     >
                       Remove
                     </button>
@@ -133,9 +153,7 @@ const Cart = () => {
           {/* Summary */}
           <div className="col-lg-4">
             <div className="cart-summary sticky-top">
-              <h5 className="summary-title">
-                Order Summary
-              </h5>
+              <h5 className="summary-title">Order Summary</h5>
 
               <div className="summary-row">
                 <span>Subtotal</span>
@@ -159,7 +177,9 @@ const Cart = () => {
                 disabled={isPlacingOrder}
                 onClick={handlePlaceOrder}
               >
-                {isPlacingOrder ? "Placing Order..." : "Proceed to Checkout"}
+                {isPlacingOrder
+                  ? "Placing Order..."
+                  : "Proceed to Checkout"}
               </button>
 
               <p className="checkout-microcopy text-center mt-2">
@@ -170,6 +190,7 @@ const Cart = () => {
         </div>
       </div>
 
+      {/* AUTH POPUP */}
       {showAuthPopup && (
         <div className="modal-overlay">
           <div className="modal-box text-center">

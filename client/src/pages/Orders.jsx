@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { useOrders } from "../context/OrderContext";
+import api from "../api/api";
 import { formatCurrency, formatDate } from "../utils/formatters";
 
 import EmptyState from "../components/ui/EmptyState";
@@ -12,22 +12,43 @@ import Card from "../components/ui/Card";
 import "../style/Orders.css";
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const { orders } = useOrders();
   const navigate = useNavigate();
   const location = useLocation();
 
+  /* ---------- FETCH ORDERS ---------- */
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(timer);
+    const fetchOrders = async () => {
+      try {
+        const res = await api.get("/orders/user");
+        setOrders(res.data || []);
+      } catch (err) {
+        setError("Failed to load orders");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
   }, []);
 
+  /* ---------- UI STATES ---------- */
   if (loading) {
     return (
       <div className="container text-center mt-5">
         <div className="spinner-border" />
         <p className="mt-2 text-muted">Loading your orders...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mt-5 text-center">
+        <p className="text-danger">{error}</p>
       </div>
     );
   }
@@ -38,12 +59,17 @@ const Orders = () => {
         <EmptyState
           title="No orders yet"
           message="You haven’t placed any orders yet."
-          action={<Button onClick={() => navigate("/")}>Start Shopping</Button>}
+          action={
+            <Button onClick={() => navigate("/")}>
+              Start Shopping
+            </Button>
+          }
         />
       </div>
     );
   }
 
+  /* ---------- MAIN UI ---------- */
   return (
     <div className="container mt-4 orders-page">
       <PageHeader
@@ -52,30 +78,31 @@ const Orders = () => {
       />
 
       {orders.map((order, index) => {
-        const status = "Placed";
+        const status = order?.orderStatus || "pending";
         const shipping = 0;
 
         return (
-          <Card key={order.id} className="order-card mb-4">
+          <Card key={order._id} className="order-card mb-4">
 
+            {/* Success Message */}
             {location.state?.fromOrder && index === 0 && (
               <div className="order-success">
                 ✔ Order placed successfully
               </div>
             )}
 
-            {/* Order Header */}
+            {/* Header */}
             <div className="order-header">
               <div>
                 <div className="order-id">
-                  Order #{order.id}
+                  Order #{order._id}
                 </div>
                 <div className="order-date">
-                  Placed on {formatDate(order.createdAt)}
+                  Placed on {order?.createdAt ? formatDate(order.createdAt) : "-"}
                 </div>
               </div>
 
-              <div className={`order-status ${status.toLowerCase()}`}>
+              <div className={`order-status ${status}`}>
                 {status}
               </div>
             </div>
@@ -84,49 +111,44 @@ const Orders = () => {
 
             {/* Items */}
             <div className="order-items">
-              {order.items.map((item) => (
-                <div key={item.id} className="order-item">
-                  <img
-                    src={item.cover}
-                    alt={item.name}
-                    className="order-item-image"
-                  />
+              {(order.products || []).map((item, i) => (
+                <div key={i} className="order-item">
 
                   <div className="order-item-info">
-                    <h6>{item.name}</h6>
-                    <p className="text-muted small mb-1">
-                      {item.author}
-                    </p>
+                    <h6>{item?.title || "Untitled Product"}</h6>
 
                     <div className="order-item-price">
-                      {formatCurrency(item.price)} × {item.quantity}
+                      {formatCurrency(item?.priceAtPurchase || 0)} × {item?.quantity || 0}
                     </div>
                   </div>
 
                   <div className="order-item-total">
-                    {formatCurrency(item.price * item.quantity)}
+                    {formatCurrency(
+                      (item?.priceAtPurchase || 0) * (item?.quantity || 0)
+                    )}
                   </div>
+
                 </div>
               ))}
             </div>
 
             <hr />
 
-            {/* Order Summary */}
+            {/* Summary */}
             <div className="order-summary">
               <div className="summary-row">
                 <span>Subtotal</span>
-                <span>{formatCurrency(order.totalAmount)}</span>
+                <span>{formatCurrency(order?.totalAmount || 0)}</span>
               </div>
 
               <div className="summary-row text-muted small">
                 <span>Shipping</span>
-                <span>{shipping === 0 ? "Free" : formatCurrency(shipping)}</span>
+                <span>Free</span>
               </div>
 
               <div className="summary-total">
                 <span>Total</span>
-                <span>{formatCurrency(order.totalAmount + shipping)}</span>
+                <span>{formatCurrency(order?.totalAmount || 0)}</span>
               </div>
             </div>
 

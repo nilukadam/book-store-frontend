@@ -1,37 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { useCart } from "../context/CartContext";
 import { formatCurrency } from "../utils/formatters";
+import api from "../api/api";
 
-import books from "../data/books";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
 
 import "../style/BookDetails.css";
 
 const BookDetails = () => {
-  /* -------------------- ROUTING -------------------- */
   const { id } = useParams();
   const navigate = useNavigate();
 
-  /* -------------------- CART -------------------- */
   const { addToCart } = useCart();
 
-  /* -------------------- DATA -------------------- */
-  const book = books.find((b) => String(b.id) === id);
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  if (!book) {
-    return (
-      <div className="container mt-5">
-        Book not found
-      </div>
-    );
-  }
+  /* ---------- FETCH BOOK ---------- */
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const res = await api.get(`/products/${id}`);
+        setBook(res.data);
+      } catch (err) {
+        setError("Failed to load book");
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchBook();
+  }, [id]);
+
+  /* ---------- UI STATES ---------- */
+  if (loading)
+    return <div className="container mt-5">Loading...</div>;
+
+  if (error)
+    return <div className="container mt-5">{error}</div>;
+
+  if (!book)
+    return <div className="container mt-5">Book not found</div>;
+
+  /* ---------- DERIVED VALUES ---------- */
   const hasDiscount =
-    book.originalPrice &&
-    book.originalPrice > book.price;
+    book.originalPrice && book.originalPrice > book.price;
 
   const discountPercent = hasDiscount
     ? Math.round(
@@ -45,13 +62,13 @@ const BookDetails = () => {
     ? book.originalPrice - book.price
     : null;
 
-  /* -------------------- HANDLERS -------------------- */
+  /* ---------- HANDLERS ---------- */
   const handlePurchase = () => {
     addToCart(book);
     navigate("/cart");
   };
 
-  /* -------------------- UI -------------------- */
+  /* ---------- MAIN UI ---------- */
   return (
     <div className="container book-details-container">
       <Card className="book-details-card">
@@ -59,7 +76,7 @@ const BookDetails = () => {
         {/* Cover */}
         <div className="book-image-wrapper">
           <img
-            src={book.cover}
+            src={book.image}
             alt={book.title}
             className="book-image"
           />
@@ -68,10 +85,7 @@ const BookDetails = () => {
         {/* Content */}
         <div className="book-info">
 
-          {/* Title & Basic Info */}
-          <h1 className="book-title">
-            {book.title}
-          </h1>
+          <h1 className="book-title">{book.title}</h1>
 
           <p className="book-author">
             — by {book.author}
@@ -81,7 +95,7 @@ const BookDetails = () => {
             ⭐ {book.rating} / 5
           </p>
 
-          {/* Price Section */}
+          {/* Price */}
           <div className="book-price-section">
             <span className="book-price">
               {formatCurrency(book.price)}
@@ -115,22 +129,18 @@ const BookDetails = () => {
 
             <p>{book.format} · {book.language}</p>
             <p>{book.pages} Pages</p>
-            <p>Delivery in {book.deliveryDays} days</p>
+            <p>Delivery in 3-5 days</p>
 
-            {book.inStock ? (
-              <p className="in-stock">
-                In Stock
-              </p>
+            {book.stock > 0 ? (
+              <p className="in-stock">In Stock</p>
             ) : (
-              <p className="out-of-stock">
-                Out of Stock
-              </p>
+              <p className="out-of-stock">Out of Stock</p>
             )}
           </div>
 
           <hr />
 
-          {/* About Section */}
+          {/* About */}
           <h5 className="section-title">
             About this book
           </h5>
@@ -141,7 +151,7 @@ const BookDetails = () => {
 
           <hr />
 
-          {/* Product Meta */}
+          {/* Meta */}
           <h5 className="section-title">
             Product Details
           </h5>
@@ -155,7 +165,7 @@ const BookDetails = () => {
 
           <hr />
 
-          {/* Trust Section */}
+          {/* Trust */}
           <ul className="trust-strip">
             <li>✔ Secure Payment</li>
             <li>✔ Fast Delivery</li>

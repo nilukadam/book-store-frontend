@@ -9,15 +9,13 @@ import { formatCurrency } from "../utils/formatters";
 import "../style/bookCard.css";
 
 const BookCard = ({ book }) => {
-  /* -------------------- HOOKS -------------------- */
   const navigate = useNavigate();
 
-  /* -------------------- SAFETY CHECK -------------------- */
   if (!book) return null;
 
-  /* -------------------- HANDLERS -------------------- */
+  /* ---------- HANDLERS ---------- */
   const handleViewDetails = () => {
-    navigate(`/book/${book.id}`);
+    navigate(`/book/${book._id}`);
   };
 
   const hasDiscount =
@@ -35,13 +33,12 @@ const BookCard = ({ book }) => {
     ? book.originalPrice - book.price
     : null;
 
-
-  /* -------------------- MAIN UI -------------------- */
+  /* ---------- MAIN UI ---------- */
   return (
     <Card className="book-card">
       <div className="book-card-image-wrapper">
         <img
-          src={book.cover}
+          src={book.image}
           alt={book.title}
           className="book-card-image"
         />
@@ -53,26 +50,25 @@ const BookCard = ({ book }) => {
         </h6>
 
         <p className="book-description">
-           {book.description}
+          {book.description}
         </p>
 
         <p className="book-meta">
-           {book.format} · {book.language}
+          {book.format} · {book.language}
         </p>
 
         <p className="book-author">
-           {book.author}
+          {book.author}
         </p>
-
 
         <p className="book-rating">
           ⭐ {book.rating} / 5
         </p>
 
         <div className="book-price-section">
-        <span className="book-price">
-              {formatCurrency(book.price)}
-        </span>
+          <span className="book-price">
+            {formatCurrency(book.price)}
+          </span>
 
           {hasDiscount && (
             <div className="book-discount-info">
@@ -89,16 +85,12 @@ const BookCard = ({ book }) => {
             <p className="book-savings">
               You save {formatCurrency(savings)}
             </p>
-         )}
+          )}
         </div>
 
-         <Button
-          size="sm"
-          onClick={handleViewDetails}
-        >
+        <Button size="sm" onClick={handleViewDetails}>
           View Details
         </Button>
-
       </div>
     </Card>
   );

@@ -2,35 +2,33 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { useCart } from "../../context/CartContext";
-import { useOrders } from "../../context/OrderContext";
 import { useAuth } from "../../hooks/useAuth";
 
 import "./Navbar.css";
 
 const Navbar = () => {
-  /* -------------------- ROUTER -------------------- */
   const navigate = useNavigate();
   const location = useLocation();
 
-  /* -------------------- AUTH -------------------- */
   const { isAuthenticated, user, logout } = useAuth();
-
-  /* -------------------- DATA -------------------- */
   const { cartItems } = useCart();
-  const { orders } = useOrders();
 
   const cartCount = cartItems.length;
-  const orderCount = orders.length;
 
-  /* -------------------- PROFILE STATE -------------------- */
   const [openProfile, setOpenProfile] = useState(false);
-  const profileRef = useRef(null);
+  const [openAdmin, setOpenAdmin] = useState(false);
 
-  /* -------------------- CLOSE DROPDOWN ON OUTSIDE CLICK -------------------- */
+  const profileRef = useRef(null);
+  const adminRef = useRef(null);
+
+  /* ---------- CLOSE DROPDOWNS ---------- */
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setOpenProfile(false);
+      }
+      if (adminRef.current && !adminRef.current.contains(e.target)) {
+        setOpenAdmin(false);
       }
     };
 
@@ -38,61 +36,92 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  /* -------------------- HANDLERS -------------------- */
+  /* ---------- HANDLERS ---------- */
   const handleLogout = () => {
     logout();
     setOpenProfile(false);
     navigate("/auth");
   };
 
-  const handleLoginRedirect = () => {
-    setOpenProfile(false);
-    navigate("/auth");
-  };
+  const isActive = (path) =>
+    location.pathname === path ? "active" : "";
 
-  const isActive = (path) => (location.pathname === path ? "active" : "");
-
-  /* -------------------- UI -------------------- */
+  /* ---------- UI ---------- */
   return (
     <header className="header">
-      {/* LEFT: Logo */}
+
+      {/* LEFT */}
       <div className="nav-left">
         <Link to="/" className="logo">
           BookNest
         </Link>
       </div>
 
-      {/* CENTER: Navigation */}
+      {/* CENTER */}
       <nav className="center-nav">
+
         <Link to="/" className={isActive("/")}>
           Home
         </Link>
 
         <Link to="/cart" className={isActive("/cart")}>
           Cart
-          {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          {cartCount > 0 && (
+            <span className="cart-badge">{cartCount}</span>
+          )}
         </Link>
 
         <Link to="/orders" className={isActive("/orders")}>
           Orders
-          {orderCount > 0 && <span className="cart-badge">{orderCount}</span>}
         </Link>
 
-        {/* Admin link only visible for admin users */}
+        {/* ADMIN DROPDOWN */}
         {isAuthenticated && user?.role === "admin" && (
-          <Link to="/admin/products" className={isActive("/admin/products")}>
-            Admin
-          </Link>
+          <div className="admin-menu" ref={adminRef}>
+            <button
+              className="admin-btn"
+              onClick={() => setOpenAdmin((prev) => !prev)}
+            >
+              Admin ▾
+            </button>
+
+            {openAdmin && (
+              <div className="admin-dropdown">
+
+                <Link
+                  to="/admin/dashboard"
+                  onClick={() => setOpenAdmin(false)}
+                >
+                  Dashboard
+                </Link>
+
+                <Link
+                  to="/admin/products"
+                  onClick={() => setOpenAdmin(false)}
+                >
+                  Products
+                </Link>
+
+                <Link
+                  to="/admin/orders"
+                  onClick={() => setOpenAdmin(false)}
+                >
+                  Orders
+                </Link>
+
+              </div>
+            )}
+          </div>
         )}
       </nav>
 
-      {/* RIGHT: Profile */}
+      {/* RIGHT */}
       <div className="nav-right" ref={profileRef}>
         <button
           className="profile-btn"
           onClick={() => setOpenProfile((prev) => !prev)}
         >
-          <span className="profile-icon">👤</span>
+          👤
         </button>
 
         {openProfile && (
@@ -100,17 +129,23 @@ const Navbar = () => {
             {isAuthenticated ? (
               <>
                 <div className="profile-info">
-                  <strong>{user?.name || "User Name"}</strong>
-                  <div className="email">{user?.email || "user@email.com"}</div>
+                  <strong>{user?.name}</strong>
+                  <div className="email">{user?.email}</div>
                 </div>
 
                 <div className="divider" />
 
-                <Link to="/orders" onClick={() => setOpenProfile(false)}>
+                <Link
+                  to="/orders"
+                  onClick={() => setOpenProfile(false)}
+                >
                   My Orders
                 </Link>
 
-                <button className="logout-btn" onClick={handleLogout}>
+                <button
+                  className="logout-btn"
+                  onClick={handleLogout}
+                >
                   Logout
                 </button>
               </>
@@ -120,7 +155,10 @@ const Navbar = () => {
                   Please login to continue
                 </div>
 
-                <button className="login-link" onClick={handleLoginRedirect}>
+                <button
+                  className="login-link"
+                  onClick={() => navigate("/auth")}
+                >
                   Login
                 </button>
               </>
@@ -128,6 +166,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
+
     </header>
   );
 };
