@@ -9,26 +9,29 @@ const orderSchema = new mongoose.Schema(
     },
 
     products: [
-      {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-          required: true,
-        },
-        title: {
-          type: String,
-          required: true,
-        },
-        priceAtPurchase: {
-          type: Number,
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
+  {
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    image: {                 // ✅ ADD THIS
+      type: String,
+    },
+    priceAtPurchase: {
+      type: Number,
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+    },
+  },
+],
 
     totalAmount: {
       type: Number,

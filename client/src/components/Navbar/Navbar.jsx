@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react"; 
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { useCart } from "../../context/CartContext";
@@ -17,6 +17,9 @@ const Navbar = () => {
 
   const [openProfile, setOpenProfile] = useState(false);
   const [openAdmin, setOpenAdmin] = useState(false);
+
+  // ✅ NEW (mobile menu state)
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const profileRef = useRef(null);
   const adminRef = useRef(null);
@@ -55,10 +58,17 @@ const Navbar = () => {
         <Link to="/" className="logo">
           BookNest
         </Link>
+      {/* ✅ HAMBURGER (NEW) */}
+      <div 
+         className="hamburger" 
+         onClick={() => setMenuOpen(!menuOpen)}
+      >
+        ☰
+        </div>
       </div>
 
       {/* CENTER */}
-      <nav className="center-nav">
+      <nav className={`center-nav ${menuOpen ? "active" : ""}`}>
 
         <Link to="/" className={isActive("/")}>
           Home
@@ -87,28 +97,17 @@ const Navbar = () => {
 
             {openAdmin && (
               <div className="admin-dropdown">
-
-                <Link
-                  to="/admin/dashboard"
-                  onClick={() => setOpenAdmin(false)}
-                >
+                <Link to="/admin/dashboard" onClick={() => setOpenAdmin(false)}>
                   Dashboard
                 </Link>
 
-                <Link
-                  to="/admin/products"
-                  onClick={() => setOpenAdmin(false)}
-                >
+                <Link to="/admin/products" onClick={() => setOpenAdmin(false)}>
                   Products
                 </Link>
 
-                <Link
-                  to="/admin/orders"
-                  onClick={() => setOpenAdmin(false)}
-                >
+                <Link to="/admin/orders" onClick={() => setOpenAdmin(false)}>
                   Orders
                 </Link>
-
               </div>
             )}
           </div>
@@ -135,17 +134,11 @@ const Navbar = () => {
 
                 <div className="divider" />
 
-                <Link
-                  to="/orders"
-                  onClick={() => setOpenProfile(false)}
-                >
+                <Link to="/orders" onClick={() => setOpenProfile(false)}>
                   My Orders
                 </Link>
 
-                <button
-                  className="logout-btn"
-                  onClick={handleLogout}
-                >
+                <button className="logout-btn" onClick={handleLogout}>
                   Logout
                 </button>
               </>

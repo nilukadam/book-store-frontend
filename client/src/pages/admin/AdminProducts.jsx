@@ -4,17 +4,37 @@ import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
 import api from "../../api/api";
 
+import "../../style/Admin.css";
+
+const fallbackImg = "https://dummyimage.com/60x80/cccccc/000000&text=Book";
+
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  /* ---------- FETCH PRODUCTS ---------- */
+  /* ===============================
+     MODAL + FORM STATE
+  ============================== */
+  const [showModal, setShowModal] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState(null);
+
+  const [formData, setFormData] = useState({
+    title: "",
+    author: "",
+    price: "",
+    image: "",
+    description: "",
+  });
+
+  /* ===============================
+     FETCH PRODUCTS
+  ============================== */
   const fetchProducts = async () => {
     try {
       const res = await api.get("/products");
 
-      // ✅ Remove duplicate products (quick fix)
       const uniqueProducts = Array.from(
         new Map(res.data.map((item) => [item.title, item])).values()
       );
@@ -32,30 +52,92 @@ const AdminProducts = () => {
     fetchProducts();
   }, []);
 
-  /* ---------- DELETE PRODUCT ---------- */
+  /* ===============================
+     DELETE PRODUCT
+  ============================== */
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Delete this product?");
-    if (!confirmDelete) return;
+    if (!window.confirm("Delete this product?")) return;
 
     try {
       await api.delete(`/products/${id}`);
       fetchProducts();
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Failed to delete product");
     }
   };
 
-  /* ---------- EDIT (TEMP FIX) ---------- */
-  const handleEdit = () => {
-    alert("Edit feature coming soon");
+  /* ===============================
+     OPEN EDIT MODAL (PREFILL)
+  ============================== */
+  const handleEdit = (product) => {
+    setEditMode(true);
+    setEditId(product._id);
+    setShowModal(true);
+
+    setFormData({
+      title: product.title,
+      author: product.author,
+      price: product.price,
+      image: product.image,
+      description: product.description || "",
+    });
   };
 
-  /* ---------- UI STATES ---------- */
+  /* ===============================
+     HANDLE INPUT CHANGE
+  ============================== */
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  /* ===============================
+     ADD / UPDATE PRODUCT
+  ============================== */
+  const handleSubmit = async () => {
+    try {
+      if (editMode) {
+        await api.put(`/products/${editId}`, formData);
+      } else {
+        await api.post("/products", formData);
+      }
+
+      handleCloseModal();
+      fetchProducts();
+
+    } catch {
+      alert("Operation failed");
+    }
+  };
+
+  /* ===============================
+     RESET + CLOSE MODAL
+  ============================== */
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditMode(false);
+    setEditId(null);
+
+    setFormData({
+      title: "",
+      author: "",
+      price: "",
+      image: "",
+      description: "",
+    });
+  };
+
+  /* ===============================
+     UI STATES
+  ============================== */
   if (loading) return <p className="text-center mt-5">Loading...</p>;
   if (error) return <p className="text-center text-danger mt-5">{error}</p>;
 
-  /* ---------- MAIN UI ---------- */
+  /* ===============================
+     MAIN UI
+  ============================== */
   return (
     <div className="container mt-4">
 
@@ -64,59 +146,107 @@ const AdminProducts = () => {
         subtitle="Manage your bookstore inventory"
       />
 
-      <div className="mb-3">
-        <Button onClick={() => alert("Coming Soon")}>
-          Add New Product
+      {/* ADD BUTTON */}
+      <div className="mb-3 d-flex justify-content-end">
+        <Button
+          className="admin-add-btn"
+          onClick={() => setShowModal(true)}
+        >
+          + Add Product
         </Button>
       </div>
 
-      <Card>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Price</th>
-              <th style={{ width: "180px" }}>Actions</th>
-            </tr>
-          </thead>
+      <Card className="p-3">
+        <div className="table-responsive">
 
-          <tbody>
-            {products.map((product) => (
-              <tr key={product._id}>
-                <td>
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    width="50"
-                    style={{ borderRadius: "5px" }}
-                  />
-                </td>
-
-                <td>{product.title}</td>
-                <td>{product.author}</td>
-                <td>₹{product.price}</td>
-
-                <td>
-                  <div className="d-flex gap-2">
-                    <Button variant="outline" onClick={handleEdit}>
-                      Edit
-                    </Button>
-
-                    <Button
-                      variant="danger"
-                      onClick={() => handleDelete(product._id)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </td>
+          <table className="table admin-table align-middle">
+            <thead>
+              <tr>
+                <th>Book</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th style={{ width: "180px" }}>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {products.map((product) => (
+                <tr key={product._id}>
+
+                  <td>
+                    <div className="d-flex align-items-center gap-3">
+                      <img
+                        src={product.image || fallbackImg}
+                        alt={product.title}
+                        className="admin-product-img"
+                      />
+                      <span className="fw-semibold">
+                        {product.title}
+                      </span>
+                    </div>
+                  </td>
+
+                  <td>{product.author}</td>
+
+                  <td className="fw-semibold">₹{product.price}</td>
+
+                  <td>
+                    <div className="d-flex gap-2">
+                      <Button
+                        variant="outline"
+                        className="admin-edit-btn px-3"
+                        onClick={() => handleEdit(product)}
+                      >
+                        Edit
+                      </Button>
+
+                      <Button
+                        variant="danger"
+                        className="admin-delete-btn px-3"
+                        onClick={() => handleDelete(product._id)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </td>
+
+                </tr>
+              ))}
+            </tbody>
+
+          </table>
+
+        </div>
       </Card>
+
+      {/* ===============================
+         MODAL (ADD + EDIT)
+      ============================== */}
+      {showModal && (
+        <div className="admin-modal-overlay">
+          <div className="admin-modal">
+
+            <h5>{editMode ? "Edit Product" : "Add New Product"}</h5>
+
+            <input name="title" placeholder="Title" value={formData.title} onChange={handleChange} />
+            <input name="author" placeholder="Author" value={formData.author} onChange={handleChange} />
+            <input name="price" placeholder="Price" value={formData.price} onChange={handleChange} />
+            <input name="image" placeholder="Image URL" value={formData.image} onChange={handleChange} />
+            <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
+
+            <div className="d-flex gap-2 mt-3">
+              <Button onClick={handleSubmit}>
+                {editMode ? "Update" : "Add"}
+              </Button>
+
+              <Button variant="outline" onClick={handleCloseModal}>
+                Cancel
+              </Button>
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </div>
   );

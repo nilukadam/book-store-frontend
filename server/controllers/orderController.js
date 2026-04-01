@@ -7,32 +7,43 @@ POST /api/orders
 Access: User
 ------------------------------------------------
 */
+const Product = require("../models/Product");
+
 const createOrder = async (req, res) => {
   try {
-
     const { products, totalAmount } = req.body;
+
+    const detailedProducts = await Promise.all(
+      products.map(async (item) => {
+        const productData = await Product.findById(item.product);
+
+        return {
+          product: item.product,
+          title: productData.title,
+          image: productData.image, // ✅ SAVE IMAGE
+          priceAtPurchase: productData.price,
+          quantity: item.quantity,
+        };
+      })
+    );
 
     const order = new Order({
       user: req.user.id,
-      products,
+      products: detailedProducts,
       totalAmount,
       paymentStatus: "paid",
-      orderStatus: "pending"
+      orderStatus: "pending",
     });
 
     const savedOrder = await order.save();
 
     res.status(201).json(savedOrder);
-
   } catch (error) {
-
     res.status(500).json({
-      message: "Server error while creating order"
+      message: "Server error while creating order",
     });
-
   }
 };
-
 
 
 /*
@@ -47,7 +58,8 @@ const getUserOrders = async (req, res) => {
 
     const orders = await Order.find({
       user: req.user.id
-    });
+    })
+    .populate("products.product"); // ✅ IMPORTANT FIX
 
     res.status(200).json(orders);
 

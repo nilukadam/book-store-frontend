@@ -4,12 +4,13 @@ import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
 import api from "../../api/api";
 
+import "../../style/Admin.css";
+
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  /* ---------- FETCH ORDERS ---------- */
   const fetchOrders = async () => {
     try {
       const res = await api.get("/orders");
@@ -25,7 +26,6 @@ const AdminOrders = () => {
     fetchOrders();
   }, []);
 
-  /* ---------- UPDATE STATUS ---------- */
   const updateStatus = async (id) => {
     try {
       await api.put(`/orders/${id}`, {
@@ -37,28 +37,9 @@ const AdminOrders = () => {
     }
   };
 
-  /* ---------- UI STATES ---------- */
-  if (loading) {
-    return <p className="text-center mt-5">Loading...</p>;
-  }
+  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (error) return <p className="text-center text-danger mt-5">{error}</p>;
 
-  if (error) {
-    return (
-      <p className="text-center text-danger mt-5">
-        {error}
-      </p>
-    );
-  }
-
-  if (orders.length === 0) {
-    return (
-      <p className="text-center mt-5">
-        No orders available
-      </p>
-    );
-  }
-
-  /* ---------- MAIN UI ---------- */
   return (
     <div className="container mt-4">
 
@@ -67,60 +48,74 @@ const AdminOrders = () => {
         subtitle="Manage customer orders"
       />
 
-      <Card>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>User</th>
-              <th>Total</th>
-              <th>Status</th>
-              <th style={{ width: "200px" }}>Actions</th>
-            </tr>
-          </thead>
+      <Card className="p-3">
+        <div className="table-responsive">
 
-          <tbody>
-            {orders.map((order) => {
-              const isCompleted = order.orderStatus === "completed";
+          <table className="table admin-table align-middle">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>User</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th style={{ width: "200px" }}>Actions</th>
+              </tr>
+            </thead>
 
-              return (
-                <tr key={order._id}>
-                  <td>{order._id}</td>
+            <tbody>
+              {orders.map((order) => {
+                const isCompleted = order.orderStatus === "completed";
 
-                  <td>
-                    {order.user?.name || "Unknown"}
-                  </td>
+                return (
+                  <tr key={order._id}>
 
-                  <td>₹{order.totalAmount}</td>
+                    {/* ORDER ID SHORT */}
+                    <td className="order-id-short">
+                      #{order._id.slice(-6)}
+                    </td>
 
-                  <td>
-                    <span
-                      className={`badge ${
-                        isCompleted
-                          ? "bg-success"
-                          : "bg-warning text-dark"
-                      }`}
-                    >
-                      {order.orderStatus}
-                    </span>
-                  </td>
+                    <td>
+                      <div className="fw-semibold">
+                        {order.user?.name || "Unknown"}
+                      </div>
+                    </td>
 
-                  <td>
-                    <Button
-                      variant="outline"
-                      disabled={isCompleted}
-                      onClick={() => updateStatus(order._id)}
-                    >
-                      {isCompleted
-                        ? "Completed"
-                        : "Mark Completed"}
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    <td className="fw-semibold">
+                      ₹{order.totalAmount}
+                    </td>
+
+                    {/* STATUS */}
+                    <td>
+                      <span
+                        className={`status-badge ${
+                          isCompleted ? "completed" : "pending"
+                        }`}
+                      >
+                        {order.orderStatus}
+                      </span>
+                    </td>
+
+                    {/* ACTION */}
+                    <td>
+                      <Button
+                        variant="admin-action-btn"
+                        disabled={isCompleted}
+                        onClick={() => updateStatus(order._id)}
+                      >
+                        {isCompleted
+                          ? "Completed"
+                          : "Mark Completed"}
+                      </Button>
+                    </td>
+
+                  </tr>
+                );
+              })}
+            </tbody>
+
+          </table>
+
+        </div>
       </Card>
 
     </div>

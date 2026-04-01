@@ -1,0 +1,205 @@
+/* =====================================================
+   ADMIN PANEL – GLOBAL STYLES
+   Clean • Minimal • Production Ready
+===================================================== */
+
+/* ---------- GLOBAL FIXES ---------- */
+
+/* Page bottom spacing */
+.container {
+  padding-bottom: 60px;
+}
+
+/* Card consistency */
+.card {
+  border-radius: 14px;
+}
+
+/* Button hover (global subtle effect) */
+button:hover {
+  opacity: 0.9;
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+.dashboard-card {
+  border-radius: 14px;
+  background: #ffffff;
+  transition: 0.2s;
+}
+
+/* Hover lift effect */
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Numbers inside cards */
+.dashboard-card h2 {
+  font-size: 28px;
+  margin-top: 4px;
+}
+
+/* Icon box */
+.dashboard-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+}
+
+/* Utility colors */
+.bg-primary {
+  background-color: #0d6efd;
+}
+
+.bg-success {
+  background-color: #198754;
+}
+
+.bg-dark {
+  background-color: #212529;
+}
+
+
+/* =====================================================
+   PRODUCTS TABLE
+===================================================== */
+
+.admin-table thead {
+  background: #f8f9fa;
+}
+
+/* Table headings */
+.admin-table th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #6c757d;
+  font-weight: 600;
+}
+
+/* Table cells */
+.admin-table td {
+  vertical-align: middle;
+  padding: 14px 10px;
+}
+
+/* Row hover */
+.admin-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Product image */
+.admin-product-img {
+  width: 55px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+/* Add product */
+.admin-add-btn {
+  background: #0d6efd;
+  color: white;
+}
+
+/* Edit */
+.admin-edit-btn {
+  border: 1px solid #dee2e6;
+}
+
+/* Delete */
+.admin-delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+/* Action button (orders page) */
+.admin-action-btn {
+  background: #0d6efd;
+  color: white;
+  border: none;
+}
+
+.admin-action-btn:disabled {
+  background: #dee2e6;
+  color: #6c757d;
+}
+
+
+/* =====================================================
+   ORDERS
+===================================================== */
+
+/* Short order ID */
+.order-id-short {
+  font-weight: 600;
+  color: #6c757d;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Pending */
+.status-badge.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* Completed */
+.status-badge.completed {
+  background: #e6f4ea;
+  color: #198754;
+}
+
+/* ===============================
+   MODAL
+================================ */
+
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.admin-modal {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-modal input,
+.admin-modal textarea {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+}

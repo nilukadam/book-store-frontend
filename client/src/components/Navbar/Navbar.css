@@ -20,19 +20,34 @@
 }
 
 /* ==============================
-   BRAND
+   LEFT (LOGO + HAMBURGER)
 ============================== */
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
 .logo {
   font-size: 1.6rem;
   font-weight: 700;
   color: #111827;
   text-decoration: none;
-  transition: color 0.2s ease;
 }
 
 .logo:hover {
   color: #0d6efd;
+}
+
+/* ==============================
+   HAMBURGER
+============================== */
+
+.hamburger {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
 }
 
 /* ==============================
@@ -94,7 +109,7 @@
 }
 
 /* ==============================
-   PROFILE
+   RIGHT (PROFILE)
 ============================== */
 
 .nav-right {
@@ -112,16 +127,10 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: border-color 0.2s ease;
 }
 
 .profile-btn:hover {
   border-color: #0d6efd;
-}
-
-.profile-icon {
-  font-size: 18px;
-  color: #374151;
 }
 
 /* ==============================
@@ -151,13 +160,11 @@
 .profile-info strong {
   display: block;
   font-size: 14px;
-  color: #111827;
 }
 
 .profile-info .email {
   font-size: 12px;
   color: #6b7280;
-  margin-top: 2px;
 }
 
 .profile-info.muted {
@@ -195,6 +202,7 @@
 .login-link {
   color: #0d6efd;
 }
+
 /* ==============================
    ADMIN DROPDOWN
 ============================== */
@@ -210,15 +218,8 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px 4px;
-  transition: color 0.2s ease;
 }
 
-.admin-btn:hover {
-  color: #0d6efd;
-}
-
-/* Dropdown container */
 .admin-dropdown {
   position: absolute;
   top: 42px;
@@ -238,21 +239,16 @@
   flex-direction: column;
 }
 
-/* Dropdown links */
 .admin-dropdown a {
   padding: 10px 16px;
   text-decoration: none;
   font-size: 14px;
   color: #1f2937;
-  transition: background 0.2s ease;
 }
 
 .admin-dropdown a:hover {
   background-color: #f3f4f6;
   color: #0d6efd;
-}
-.admin-btn::after {
-  margin-left: 6px;
 }
 
 /* ==============================
@@ -260,28 +256,33 @@
 ============================== */
 
 @media (max-width: 768px) {
+
   .header {
+    grid-template-columns: auto auto;
     padding: 0 16px;
   }
 
-  .logo {
-    font-size: clamp(1.25rem, 3.5vw, 1.45rem);
+  .hamburger {
+    display: block;
   }
 
   .center-nav {
-    gap: clamp(14px, 4vw, 20px);
+    position: absolute;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    display: none;
+    padding: 16px 0;
+    border-bottom: 1px solid #e5e7eb;
   }
 
-  .center-nav a {
-    font-size: clamp(0.85rem, 2.8vw, 0.95rem);
-  }
-
-  .profile-btn {
-    width: clamp(36px, 8vw, 42px);
-    height: clamp(36px, 8vw, 42px);
-  }
-
-  .profile-icon {
-    font-size: clamp(14px, 3vw, 18px);
+  .center-nav.active {
+    display: flex;
   }
 }

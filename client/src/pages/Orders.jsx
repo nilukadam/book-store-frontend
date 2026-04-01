@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 import { useNavigate, useLocation } from "react-router-dom";
 
 import api from "../api/api";
@@ -11,6 +11,7 @@ import Card from "../components/ui/Card";
 
 import "../style/Orders.css";
 
+const fallbackImg = "https://dummyimage.com/80x100/cccccc/000000&text=Book";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +20,6 @@ const Orders = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  /* ---------- FETCH ORDERS ---------- */
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -35,7 +35,6 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
-  /* ---------- UI STATES ---------- */
   if (loading) {
     return (
       <div className="container text-center mt-5">
@@ -69,7 +68,6 @@ const Orders = () => {
     );
   }
 
-  /* ---------- MAIN UI ---------- */
   return (
     <div className="container mt-4 orders-page">
       <PageHeader
@@ -79,7 +77,6 @@ const Orders = () => {
 
       {orders.map((order, index) => {
         const status = order?.orderStatus || "pending";
-        const shipping = 0;
 
         return (
           <Card key={order._id} className="order-card mb-4">
@@ -91,7 +88,7 @@ const Orders = () => {
               </div>
             )}
 
-            {/* Header */}
+            {/* HEADER */}
             <div className="order-header">
               <div>
                 <div className="order-id">
@@ -109,11 +106,19 @@ const Orders = () => {
 
             <hr />
 
-            {/* Items */}
+            {/* ITEMS */}
             <div className="order-items">
               {(order.products || []).map((item, i) => (
                 <div key={i} className="order-item">
 
+                  {/* ✅ IMAGE */}
+                <img
+                     src={item?.image || fallbackImg}
+                     alt="book"
+                     className="order-item-img"
+                    />
+
+                  {/* INFO */}
                   <div className="order-item-info">
                     <h6>{item?.title || "Untitled Product"}</h6>
 
@@ -122,6 +127,7 @@ const Orders = () => {
                     </div>
                   </div>
 
+                  {/* TOTAL */}
                   <div className="order-item-total">
                     {formatCurrency(
                       (item?.priceAtPurchase || 0) * (item?.quantity || 0)
@@ -134,7 +140,7 @@ const Orders = () => {
 
             <hr />
 
-            {/* Summary */}
+            {/* SUMMARY */}
             <div className="order-summary">
               <div className="summary-row">
                 <span>Subtotal</span>

@@ -1,5 +1,5 @@
 /* ===============================
-   ORDERS PAGE – STRUCTURED COMMERCIAL
+   ORDERS PAGE – PREMIUM UI
 ================================ */
 
 .orders-page {
@@ -11,11 +11,16 @@
 -------------------------------- */
 
 .order-card {
-  padding: 28px;
-  margin-bottom: 32px;
+  padding: 24px;
+  margin-bottom: 28px;
   border-radius: 14px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
   background: #ffffff;
+  transition: 0.2s;
+}
+
+.order-card:hover {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
 }
 
 /* ------------------------------
@@ -39,7 +44,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
 }
 
 .order-id {
@@ -61,14 +65,14 @@
   font-weight: 600;
 }
 
+.order-status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
 .order-status.placed {
   background: #e7f1ff;
   color: #0d6efd;
-}
-
-.order-status.processing {
-  background: #fff3cd;
-  color: #856404;
 }
 
 .order-status.delivered {
@@ -88,19 +92,21 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 12px 0;
-  border-bottom: 1px solid #ececec;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .order-item:last-child {
   border-bottom: none;
 }
 
-.order-item-image {
+/* ✅ FIXED IMAGE CLASS */
+.order-item-img {
   width: 70px;
   height: 100px;
   object-fit: cover;
   border-radius: 8px;
+  background: #f5f5f5;
 }
 
 .order-item-info {
@@ -116,6 +122,7 @@
 .order-item-price {
   font-size: 0.85rem;
   font-weight: 500;
+  color: #6c757d;
 }
 
 .order-item-total {
@@ -129,19 +136,22 @@
 
 .order-summary {
   margin-top: 16px;
+  background: #fafafa;
+  padding: 14px;
+  border-radius: 10px;
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-size: 0.9rem;
 }
 
 .summary-total {
   display: flex;
   justify-content: space-between;
-  margin-top: 12px;
+  margin-top: 10px;
   font-size: 1rem;
   font-weight: 700;
 }
@@ -151,7 +161,7 @@
 .order-card hr {
   border: none;
   height: 1px;
-  background: #ececec;
+  background: #f0f0f0;
   margin: 16px 0;
 }
 
@@ -171,7 +181,12 @@
     align-items: flex-start;
   }
 
+  .order-item-img {
+    width: 60px;
+    height: 90px;
+  }
+
   .order-item-total {
-    margin-top: 8px;
+    margin-top: 6px;
   }
 }
