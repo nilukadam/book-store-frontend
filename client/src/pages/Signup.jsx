@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
@@ -34,10 +35,12 @@ const Signup = () => {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
+  const signupToast = toast.loading("Creating account...");
+
   const { name, email, password } = formData;
 
   if (!name || !email || !password) {
-    alert("All fields are required");
+    toast.error("All fields are required");
     return;
   }
 
@@ -48,11 +51,18 @@ const handleSubmit = async (e) => {
       password,
     });
 
-    alert("Account created successfully");
+    toast.success("Account created successfully", {
+      id: signupToast
+    });
 
     navigate("/auth");
   } catch (error) {
-    alert(error.response?.data?.message || "Signup failed");
+    toast.error(
+      error.response?.data?.message || "Signup failed",
+     {
+       id: signupToast
+     }
+   );
   }
 };
 

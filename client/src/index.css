@@ -1,13 +1,334 @@
-* {
+
+
+/* =====================================================
+   GLOBAL APP LAYOUT
+===================================================== */
+
+.app-main {
+  padding: 20px;
+}
+
+/* =====================================================
+   RESPONSIVE APP LAYOUT
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .app-main {
+    padding: 16px;
+  }
+
+}
+
+@media (max-width: 576px) {
+
+  .app-main {
+    padding: 14px;
+  }
+
+}
+
+
+/* =====================================================
+   GLOBAL FOUNDATION RESET
+===================================================== */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
+/* =====================================================
+   ROOT VARIABLES (BOOKNEST DESIGN FOUNDATION)
+===================================================== */
+
+:root {
+
+  /* ---------- BRAND COLORS ---------- */
+
+  --color-primary: #D97706;
+  --color-primary-hover: #B45309;
+
+  --color-background: #F8F7F4;
+  --color-surface: #FFFFFF;
+
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+
+  --color-border: #E5E7EB;
+
+  --color-success: #16A34A;
+  --color-danger: #DC2626;
+
+  /* ---------- RADIUS ---------- */
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* ---------- SHADOWS ---------- */
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+  /* ---------- TRANSITIONS ---------- */
+
+  --transition-fast: 0.2s ease;
+
+  /* ---------- LAYOUT ---------- */
+
+  --navbar-height: 72px;
+
+  /* ---------- TYPOGRAPHY ---------- */
+
+  --font-family-base:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  --line-height-base: 1.6;
+}
+
+/* =====================================================
+   GLOBAL BODY
+===================================================== */
+
 body {
   margin: 0;
-  padding-top: 72px;
-  font-family: Arial, sans-serif;
+
+  padding-top: var(--navbar-height);
+  overflow-x: hidden;
+
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-base);
+
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* =====================================================
+   ROOT APP CONTAINER
+===================================================== */
 
 #root {
   min-height: 100vh;
+}
+
+/* =====================================================
+   GLOBAL TYPOGRAPHY
+===================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+
+  color: var(--color-text-primary);
+
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+p {
+  margin-top: 0;
+
+  color: var(--color-text-secondary);
+}
+
+/* =====================================================
+   GLOBAL LINKS
+===================================================== */
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* =====================================================
+   GLOBAL BUTTON RESET
+===================================================== */
+
+button {
+  font-family: inherit;
+}
+
+/* =====================================================
+   GLOBAL IMAGE SAFETY
+===================================================== */
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =====================================================
+   GLOBAL INPUT FOUNDATION
+===================================================== */
+
+.bn-label {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  color: var(--color-text-primary);
+}
+
+.bn-input {
+  height: 48px;
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-md);
+
+  background-color: var(--color-surface);
+
+  color: var(--color-text-primary);
+
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.bn-input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.bn-input:focus {
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(217, 119, 6, 0.15);
+
+  background-color: var(--color-surface);
+}
+
+/* =====================================================
+   INVALID INPUT
+===================================================== */
+
+.bn-input.is-invalid {
+  border-color: var(--color-danger);
+}
+
+.invalid-feedback {
+  margin-top: 6px;
+
+  font-size: 0.85rem;
+
+  color: var(--color-danger);
+}
+
+/* =====================================================
+   GLOBAL BUTTON FOUNDATION
+===================================================== */
+
+.bn-btn {
+  border-radius: var(--radius-md);
+
+  font-weight: 600;
+
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+  box-shadow: none;
+}
+
+/* =====================================================
+   PRIMARY BUTTON
+===================================================== */
+
+.btn-primary.bn-btn {
+  background-color: var(--color-primary);
+
+  border-color: var(--color-primary);
+}
+
+.btn-primary.bn-btn:hover {
+  background-color: var(--color-primary-hover);
+
+  border-color: var(--color-primary-hover);
+
+  transform: translateY(-1px);
+}
+
+/* =====================================================
+   OUTLINE PRIMARY
+===================================================== */
+
+.btn-outline-primary.bn-btn {
+  color: var(--color-primary);
+
+  border-color: var(--color-primary);
+}
+
+.btn-outline-primary.bn-btn:hover {
+  background-color: var(--color-primary);
+
+  border-color: var(--color-primary);
+
+  color: #ffffff;
+}
+
+/* =====================================================
+   DANGER BUTTON
+===================================================== */
+
+.btn-danger.bn-btn {
+  background-color: var(--color-danger);
+
+  border-color: var(--color-danger);
+}
+
+/* =====================================================
+   BUTTON FOCUS
+===================================================== */
+
+.bn-btn:focus {
+  box-shadow:
+    0 0 0 3px rgba(217, 119, 6, 0.18);
+}
+
+/* =====================================================
+   HOME HERO
+===================================================== */
+
+.home-hero-title {
+  max-width: 720px;
+
+  font-weight: 800;
+
+  line-height: 1.15;
+
+  letter-spacing: -0.03em;
+}
+
+.home-hero-text {
+  max-width: 620px;
+
+  font-size: 1rem;
+
+  line-height: 1.7;
 }

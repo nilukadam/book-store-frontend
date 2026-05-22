@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { useAuth } from "../hooks/useAuth";
 import api from "../api/api";
@@ -28,6 +29,8 @@ const Login = () => {
 
     e.preventDefault();
 
+    const loginToast = toast.loading("Logging in...");
+
     try {
 
       const res = await api.post("/auth/login", {
@@ -39,13 +42,20 @@ const Login = () => {
 
       login(user, token);
 
+      toast.success("Login successful", {
+        id: loginToast,
+      });
+
       navigate("/");
 
     } catch (error) {
 
-      alert(
+      toast.error(
         error.response?.data?.message ||
-        "Login failed. Please try again."
+        "Login failed. Please try again.",
+        {
+          id: loginToast,
+        }
       );
 
     }

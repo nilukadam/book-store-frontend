@@ -1,27 +1,46 @@
-/* ===============================
-   CART PAGE – STRUCTURED COMMERCIAL
-================================ */
+/* =====================================================
+   CART PAGE
+===================================================== */
 
 .cart-page {
-  padding-bottom: 60px;
+  padding-top: 28px;
+  
+  padding-bottom: 72px;
 }
 
-/* ------------------------------
-   Title
--------------------------------- */
+/* =====================================================
+   PAGE TITLE
+===================================================== */
 
 .cart-page-title {
-  margin-bottom: 28px;
-  font-size: 1.6rem;
+  margin-bottom: 36px;
+
+  font-size: 1.9rem;
+  font-weight: 800;
+
+  line-height: 1.2;
+
+  letter-spacing: -0.03em;
+
+  color: var(--color-text-primary);
 }
 
-/* ------------------------------
-   Cart Item Block
--------------------------------- */
+/* =====================================================
+   CART ITEM BLOCK
+===================================================== */
 
 .cart-item-block {
-  padding: 24px 0;
-  border-bottom: 1px solid #ececec;
+  padding: 30px 0;
+
+  border-bottom: 1px solid var(--color-border);
+
+  transition: 
+     background-color var(--transition-fast);
+}
+
+.cart-item-block:hover {
+  background-color:
+    rgba(255, 255, 255, 0.45);
 }
 
 .cart-item-block:last-child {
@@ -29,153 +48,341 @@
 }
 
 .cart-item-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
+
+  font-size: 1.12rem;
+  font-weight: 700;
+
+  line-height: 1.45;
+
+  letter-spacing: -0.01em;
+
+  color: var(--color-text-primary);
 }
 
 .cart-item-price {
-  font-weight: 600;
+  margin-bottom: 2px;
+
   font-size: 0.95rem;
+  font-weight: 600;
+
+  color: var(--color-text-secondary);
 }
 
-/* Image */
+/* =====================================================
+   IMAGE
+===================================================== */
 
 .cart-item-image {
-  border-radius: 10px;
-  max-height: 140px;
+  width: 100%;
+
+  max-width: 120px;
+  max-height: 150px;
+
+  padding: 10px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.92),
+      rgba(245,245,245,0.88)
+    );
+
+  border: 1px solid rgba(0,0,0,0.04);
+
+  border-radius: var(--radius-md);
+
   object-fit: contain;
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
-/* ------------------------------
-   Quantity Controls
--------------------------------- */
+.cart-item-block:hover .cart-item-image {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.06);
+}
+/* =====================================================
+   QUANTITY CONTROLS
+===================================================== */
 
 .quantity-wrapper {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 8px;
+
+  gap: 10px;
+
+  margin-top: 14px;
+
+  padding: 6px 10px;
+
+  background:
+    rgba(248, 247, 244, 0.9);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: 999px;
 }
 
 .quantity-wrapper button {
   width: 34px;
   height: 34px;
+
   padding: 0;
-  font-size: 16px;
-  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50% !important;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  line-height: 1;
+
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.quantity-wrapper button:hover:not(:disabled) {
+  background-color:
+    rgba(217, 119, 6, 0.08);
+
+  border-color:
+    rgba(217, 119, 6, 0.22);
+
+  color: var(--color-primary);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 6px 14px rgba(217, 119, 6, 0.12);
+}
+
+.quantity-wrapper button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
 }
 
 .quantity-value {
-  min-width: 24px;
+  min-width: 28px;
+
   text-align: center;
-  font-weight: 600;
+
+  font-size: 0.96rem;
+  font-weight: 700;
+
+  color: var(--color-text-primary);
 }
 
-/* ------------------------------
-   Remove Link
--------------------------------- */
+/* =====================================================
+   REMOVE BUTTON
+===================================================== */
 
 .remove-link {
-  background: none;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+
+  margin-top: 16px;
+
   padding: 0;
-  margin-top: 8px;
-  font-size: 0.85rem;
-  color: #dc3545;
+
+  border: none;
+
+  background: none;
+
+  color: var(--color-danger);
+
+  font-size: 0.88rem;
+  font-weight: 600;
+
   cursor: pointer;
+
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .remove-link:hover {
-  text-decoration: underline;
+  color: #b91c1c;
+
+  text-decoration: none;
+
+  transform: translateX(2px);
 }
 
-/* ------------------------------
-   Line Total (Right Side)
--------------------------------- */
+/* =====================================================
+   LINE TOTAL
+===================================================== */
 
 .line-total {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+
+  color: var(--color-text-primary);
 }
 
-/* ------------------------------
-   Summary Panel
--------------------------------- */
+/* =====================================================
+   SUMMARY PANEL
+===================================================== */
 
 .cart-summary {
-  background: #ffffff;
-  padding: 28px;
-  border-radius: 14px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 96px;
+
+  padding: 34px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.98),
+      rgba(252,252,252,0.96)
+    );
+
+  border: 1px solid rgba(0,0,0,0.05);
+
+  border-radius: var(--shadow-lg);
+
+  box-shadow: var(--shadow-lg);
+
+  backdrop-filter: blur(10px);
 }
 
 .summary-title {
-  font-weight: 600;
-  margin-bottom: 20px;
-  letter-spacing: 0.4px;
+  margin-bottom: 28px;
+
+  font-size: 1.22rem;
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+
+  color: var(--color-text-primary);
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
-  font-size: 0.95rem;
+  align-items: center;
+
+  margin-bottom: 16px;
+
+  font-size: 0.97rem;
+
+  color: var(--color-text-secondary);
 }
 
 .summary-total {
   display: flex;
   justify-content: space-between;
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 18px;
+  align-items: center;
+
+  margin-bottom: 26px;
+  margin-top: 6px;
+
+  font-size: 1.42rem;
+  font-weight: 800;
+
+  letter-spacing: -0.03em;
+
+  color: var(--color-text-primary);
 }
 
-/* Divider inside summary */
+/* =====================================================
+   SUMMARY DIVIDER
+===================================================== */
+
 .cart-summary hr {
-  border: none;
   height: 1px;
-  background: #ececec;
-  margin: 16px 0;
+
+  margin: 18px 0;
+
+  border: none;
+
+  background: var(--color-border);
 }
 
-/* ------------------------------
-   Checkout Button
--------------------------------- */
+/* =====================================================
+   CHECKOUT BUTTON
+===================================================== */
 
 .checkout-btn {
+  width: 100%;
+
+  padding: 15px 20px;
+
+  border-radius: 14px;
+
   font-size: 1rem;
-  font-weight: 600;
-  padding: 12px 16px;
-  border-radius: 10px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-weight: 700;
+
+  letter-spacing: -0.01em;
+
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
 }
 
 .checkout-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(13, 110, 253, 0.25);
+
+  box-shadow:
+    0 12px 24px rgba(217, 119, 6, 0.22);
 }
 
-/* ------------------------------
-   Microcopy
--------------------------------- */
+/* =====================================================
+   MICROCOPY
+===================================================== */
 
 .checkout-microcopy {
-  font-size: 0.8rem;
-  color: #6c757d;
+  margin-top: 14px;
+
+  font-size: 0.82rem;
+
+  line-height: 1.7;
+
+  text-align: center;
+
+  color: var(--color-text-secondary);
 }
 
-/* ------------------------------
-   Responsive Adjustments
--------------------------------- */
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
 @media (max-width: 992px) {
+
   .cart-summary {
-    margin-top: 32px;
     position: static !important;
+
+    margin-top: 36px;
   }
 
   .line-total {
-    margin-top: 12px;
+    margin-top: 14px;
   }
+
+  .cart-item-block {
+  padding: 24px 0;
+}
+
+.cart-item-title {
+  margin-top: 14px;
+}
+
+.line-total {
+  font-size: 1.15rem;
+}
+
 }

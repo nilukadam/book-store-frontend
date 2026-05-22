@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
@@ -27,7 +28,24 @@ function App() {
 
       {!hideHeader && <Navbar />}
 
-      <main style={{ padding: "20px" }}>
+      <Toaster
+         position="top-right"
+         toastOptions={{
+           duration: 3000,
+           success: {
+              style: {
+                border: "1px solid #22c55e",
+              },
+            },
+            error: {
+              style: {
+                border: "1px solid #ef4444",
+              },
+            },
+          }}
+       />
+
+      <main className="app-main">
         <Routes>
 
           {/* ---------- PUBLIC ROUTES ---------- */}

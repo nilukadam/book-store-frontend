@@ -1,34 +1,76 @@
-/* Auth page container */
+/* =====================================================
+   AUTH PAGE LAYOUT
+===================================================== */
+
 .auth-page {
-    min-height: calc(100vh - 72px); /* below navbar */
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 48px;
-  }
-  
-  /* Auth card */
-  .auth-card {
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  }
-  
-  /* Card heading */
-  .auth-title {
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  
-  /* Subtitle */
-  .auth-subtitle {
-    font-size: 14px;
-    color: #6c757d;
-    margin-bottom: 24px;
-  }
-  
-  /* Bottom helper text */
-  .auth-footer {
-    margin-top: 12px;
-    font-size: 14px;
-  }
-  
+  min-height: calc(100vh - var(--navbar-height));
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding-top: 56px;
+  padding-inline: 16px;
+}
+
+/* =====================================================
+   AUTH CARD
+===================================================== */
+
+.auth-card {
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-lg);
+
+  background-color: var(--color-surface);
+
+  box-shadow: var(--shadow-md);
+}
+
+/* =====================================================
+   AUTH TITLE
+===================================================== */
+
+.auth-title {
+  margin-bottom: 8px;
+
+  font-weight: 700;
+
+  color: var(--color-text-primary);
+}
+
+/* =====================================================
+   AUTH SUBTITLE
+===================================================== */
+
+.auth-subtitle {
+  margin-bottom: 24px;
+
+  font-size: 0.95rem;
+
+  line-height: 1.5;
+
+  color: var(--color-text-secondary);
+}
+
+/* =====================================================
+   AUTH FOOTER
+===================================================== */
+
+.auth-footer {
+  margin-top: 14px;
+
+  font-size: 0.9rem;
+
+  color: var(--color-text-secondary);
+}
+
+.auth-footer a {
+  color: var(--color-primary);
+
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  color: var(--color-primary-hover);
+}

@@ -1,82 +1,112 @@
-/* =========================================================
-   GLOBAL APP STYLES (LOCKED)
+/* =====================================================
+   GLOBAL APP FOUNDATION
    Responsibility:
-   - Global layout
-   - Offset fixed navbar
-   - General UI consistency
-   ========================================================= */
+   - Layout helpers
+   - Shared utility surfaces
+   - Modal consistency
+   - Global UI stability
+===================================================== */
 
-/* Root wrapper */
+/* =====================================================
+   ROOT APPLICATION CONTAINER
+===================================================== */
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem;          /* removed top padding */
-  text-align: center;
+  min-height: 100vh;
 }
 
-/* Offset fixed navbar height */
+/* =====================================================
+   SHARED PAGE CONTAINER
+===================================================== */
+
 .app-content {
-  padding-top: 80px;        /* MUST match navbar height */
+  padding-top: calc(var(--navbar-height) + 8px);
 }
 
-/* Global typography */
-body {
-  margin: 0;
-  background-color: #ffffff;
-  color: #212529;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
+/* =====================================================
+   MODAL SYSTEM
+===================================================== */
 
-/* Modal overlay (used in auth / cart etc.) */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  background: rgba(0, 0, 0, 0.5);
+
   z-index: 1100;
+
+  padding: 16px;
 }
 
 .modal-box {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 90%;
+  width: 100%;
   max-width: 320px;
+
+  padding: 24px;
+
+  background-color: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-md);
 }
 
-/* Cards (generic – NOT book specific) */
-.card {
-  padding: 1.25rem;         /* reduced from 2em (better balance) */
-}
+/* =====================================================
+   GENERIC CARD HELPERS
+===================================================== */
+
 .custom-card {
-  background: #ffffff;
-  border-radius: 16px;
+  background-color: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
 }
 
-/* Empty cart screen */
+/* =====================================================
+   EMPTY STATES
+===================================================== */
+
 .empty-cart {
   min-height: 60vh;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-/* Latest order highlight */
+/* =====================================================
+   ORDER HIGHLIGHT
+===================================================== */
+
 .latest-order {
-  border: 2px solid #198754;
-  background-color: #f6fff9;
+  border: 2px solid var(--color-success);
+
+  background-color: rgba(22, 163, 74, 0.08);
 }
 
-/* Remove default focus glow */
+/* =====================================================
+   FOCUS RESET
+===================================================== */
+
 button:focus,
 input:focus {
   outline: none;
   box-shadow: none;
 }
 
-/* Muted text consistency */
+/* =====================================================
+   MUTED TEXT
+===================================================== */
+
 .text-muted {
-  color: #6c757d !important;
+  color: var(--color-text-secondary) !important;
 }

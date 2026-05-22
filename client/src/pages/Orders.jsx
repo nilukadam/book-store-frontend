@@ -76,7 +76,7 @@ const Orders = () => {
       />
 
       {orders.map((order, index) => {
-        const status = order?.orderStatus || "pending";
+        const status = (order?.orderStatus || "pending").toLowerCase();
 
         return (
           <Card key={order._id} className="order-card mb-4">

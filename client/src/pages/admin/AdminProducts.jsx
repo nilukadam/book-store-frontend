@@ -1,77 +1,153 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState
+} from "react";
+
 import PageHeader from "../../components/ui/PageHeader";
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
+
 import api from "../../api/api";
+
+import toast from "react-hot-toast";
 
 import "../../style/Admin.css";
 
-const fallbackImg = "https://dummyimage.com/60x80/cccccc/000000&text=Book";
+const fallbackImg =
+  "https://dummyimage.com/60x80/cccccc/000000&text=Book";
 
 const AdminProducts = () => {
+
+  /* =====================================================
+     STATE
+  ===================================================== */
+
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  /* ===============================
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
+
+  /* =====================================================
      MODAL + FORM STATE
-  ============================== */
-  const [showModal, setShowModal] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [editId, setEditId] = useState(null);
+  ===================================================== */
 
-  const [formData, setFormData] = useState({
-    title: "",
-    author: "",
-    price: "",
-    image: "",
-    description: "",
-  });
+  const [showModal, setShowModal] =
+    useState(false);
 
-  /* ===============================
+  const [editMode, setEditMode] =
+    useState(false);
+
+  const [editId, setEditId] =
+    useState(null);
+
+  const [formData, setFormData] =
+    useState({
+      title: "",
+      author: "",
+      price: "",
+      image: "",
+      description: "",
+    });
+
+  /* =====================================================
      FETCH PRODUCTS
-  ============================== */
-  const fetchProducts = async () => {
-    try {
-      const res = await api.get("/products");
+  ===================================================== */
 
-      const uniqueProducts = Array.from(
-        new Map(res.data.map((item) => [item.title, item])).values()
-      );
+  const fetchProducts = async () => {
+
+    try {
+
+      const res =
+        await api.get("/products");
+
+      const uniqueProducts =
+        Array.from(
+          new Map(
+            res.data.map((item) => [
+              item.title,
+              item
+            ])
+          ).values()
+        );
 
       setProducts(uniqueProducts);
 
     } catch (err) {
-      setError("Failed to load products");
+
+      setError(
+        "Failed to load products"
+      );
+
     } finally {
+
       setLoading(false);
+
     }
+
   };
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  /* ===============================
+  /* =====================================================
      DELETE PRODUCT
-  ============================== */
+  ===================================================== */
+
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this product?")) return;
+
+    if (
+      !window.confirm(
+        "Delete this product?"
+      )
+    ) return;
+
+    const deleteToast =
+      toast.loading(
+        "Deleting product..."
+      );
 
     try {
-      await api.delete(`/products/${id}`);
+
+      await api.delete(
+        `/products/${id}`
+      );
+
       fetchProducts();
+
+      toast.success(
+        "Product deleted successfully",
+        {
+          id: deleteToast,
+        }
+      );
+
     } catch {
-      alert("Failed to delete product");
+
+      toast.error(
+        "Failed to delete product",
+        {
+          id: deleteToast,
+        }
+      );
+
     }
+
   };
 
-  /* ===============================
-     OPEN EDIT MODAL (PREFILL)
-  ============================== */
+  /* =====================================================
+     EDIT
+  ===================================================== */
+
   const handleEdit = (product) => {
+
     setEditMode(true);
+
     setEditId(product._id);
+
     setShowModal(true);
 
     setFormData({
@@ -79,45 +155,80 @@ const AdminProducts = () => {
       author: product.author,
       price: product.price,
       image: product.image,
-      description: product.description || "",
+      description:
+        product.description || "",
     });
+
   };
 
-  /* ===============================
-     HANDLE INPUT CHANGE
-  ============================== */
+  /* =====================================================
+     HANDLE CHANGE
+  ===================================================== */
+
   const handleChange = (e) => {
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.value,
     });
+
   };
 
-  /* ===============================
-     ADD / UPDATE PRODUCT
-  ============================== */
+  /* =====================================================
+     SUBMIT
+  ===================================================== */
+
   const handleSubmit = async () => {
+
     try {
+
       if (editMode) {
-        await api.put(`/products/${editId}`, formData);
+
+        await api.put(
+          `/products/${editId}`,
+          formData
+        );
+
       } else {
-        await api.post("/products", formData);
+
+        await api.post(
+          "/products",
+          formData
+        );
+
       }
 
       handleCloseModal();
+
       fetchProducts();
 
+      toast.success(
+        editMode
+          ? "Product updated successfully"
+          : "Product added successfully"
+      );
+
     } catch {
-      alert("Operation failed");
+
+      toast.error(
+        "Operation failed"
+      );
+
     }
+
   };
 
-  /* ===============================
-     RESET + CLOSE MODAL
-  ============================== */
+  /* =====================================================
+     CLOSE MODAL
+  ===================================================== */
+
   const handleCloseModal = () => {
+
     setShowModal(false);
+
     setEditMode(false);
+
     setEditId(null);
 
     setFormData({
@@ -127,129 +238,346 @@ const AdminProducts = () => {
       image: "",
       description: "",
     });
+
   };
 
-  /* ===============================
+  /* =====================================================
      UI STATES
-  ============================== */
-  if (loading) return <p className="text-center mt-5">Loading...</p>;
-  if (error) return <p className="text-center text-danger mt-5">{error}</p>;
+  ===================================================== */
 
-  /* ===============================
+  if (loading) {
+
+    return (
+      <p className="text-center mt-5">
+        Loading...
+      </p>
+    );
+
+  }
+
+  if (error) {
+
+    return (
+      <p className="
+        text-center
+        text-danger
+        mt-5
+      ">
+        {error}
+      </p>
+    );
+
+  }
+
+  /* =====================================================
      MAIN UI
-  ============================== */
+  ===================================================== */
+
   return (
-    <div className="container mt-4">
+    <div className="
+      container
+      mt-4
+      admin-products-page
+    ">
 
       <PageHeader
         title="Admin Products"
-        subtitle="Manage your bookstore inventory"
+        subtitle="
+          Manage your bookstore inventory
+        "
       />
 
       {/* ADD BUTTON */}
-      <div className="mb-3 d-flex justify-content-end">
+
+      <div className="
+        d-flex
+        justify-content-between
+        align-items-center
+        flex-wrap
+        gap-3
+        mb-4
+      ">
+
+        <div className="
+          admin-products-count
+        ">
+          {products.length} books available
+        </div>
+
         <Button
-          className="admin-add-btn"
-          onClick={() => setShowModal(true)}
+          className="
+            admin-add-btn
+          "
+          onClick={() =>
+            setShowModal(true)
+          }
         >
           + Add Product
         </Button>
+
       </div>
 
-      <Card className="p-3">
-        <div className="table-responsive">
+      {/* TABLE */}
 
-          <table className="table admin-table align-middle">
+      <Card className="
+        admin-table-card
+      ">
+
+        <div className="
+          table-responsive
+        ">
+
+          <table className="
+            table
+            admin-table
+            align-middle
+            mb-0
+          ">
+
             <thead>
+
               <tr>
+
                 <th>Book</th>
+
                 <th>Author</th>
+
                 <th>Price</th>
-                <th style={{ width: "180px" }}>Actions</th>
+
+                <th>Status</th>
+
+                <th
+                  style={{
+                    width: "220px"
+                  }}
+                >
+                  Actions
+                </th>
+
               </tr>
+
             </thead>
 
             <tbody>
+
               {products.map((product) => (
+
                 <tr key={product._id}>
 
+                  {/* BOOK */}
+
                   <td>
-                    <div className="d-flex align-items-center gap-3">
+
+                    <div className="
+                      admin-book-cell
+                    ">
+
                       <img
-                        src={product.image || fallbackImg}
+                        src={
+                          product.image ||
+                          fallbackImg
+                        }
                         alt={product.title}
-                        className="admin-product-img"
+                        className="
+                          admin-product-img
+                        "
                       />
-                      <span className="fw-semibold">
-                        {product.title}
-                      </span>
+
+                      <div>
+
+                        <p className="
+                          admin-book-title
+                        ">
+                          {product.title}
+                        </p>
+
+                        <span className="
+                          admin-book-meta
+                        ">
+                          Book Product
+                        </span>
+
+                      </div>
+
                     </div>
+
                   </td>
 
-                  <td>{product.author}</td>
-
-                  <td className="fw-semibold">₹{product.price}</td>
+                  {/* AUTHOR */}
 
                   <td>
-                    <div className="d-flex gap-2">
+
+                    <span className="
+                      admin-author
+                    ">
+                      {product.author}
+                    </span>
+
+                  </td>
+
+                  {/* PRICE */}
+
+                  <td>
+
+                    <span className="
+                      admin-price
+                    ">
+                      ₹{product.price}
+                    </span>
+
+                  </td>
+
+                  {/* STATUS */}
+
+                  <td>
+
+                    <span className="
+                      admin-status-badge
+                    ">
+                      Active
+                    </span>
+
+                  </td>
+
+                  {/* ACTIONS */}
+
+                  <td>
+
+                    <div className="
+                      admin-action-group
+                    ">
+
                       <Button
                         variant="outline"
-                        className="admin-edit-btn px-3"
-                        onClick={() => handleEdit(product)}
+                        className="
+                          admin-edit-btn
+                        "
+                        onClick={() =>
+                          handleEdit(product)
+                        }
                       >
                         Edit
                       </Button>
 
                       <Button
                         variant="danger"
-                        className="admin-delete-btn px-3"
-                        onClick={() => handleDelete(product._id)}
+                        className="
+                          admin-delete-btn
+                        "
+                        onClick={() =>
+                          handleDelete(
+                            product._id
+                          )
+                        }
                       >
                         Delete
                       </Button>
+
                     </div>
+
                   </td>
 
                 </tr>
+
               ))}
+
             </tbody>
 
           </table>
 
         </div>
+
       </Card>
 
-      {/* ===============================
-         MODAL (ADD + EDIT)
-      ============================== */}
+      {/* =====================================================
+          MODAL
+      ===================================================== */}
+
       {showModal && (
-        <div className="admin-modal-overlay">
-          <div className="admin-modal">
 
-            <h5>{editMode ? "Edit Product" : "Add New Product"}</h5>
+        <div className="
+          admin-modal-overlay
+        ">
 
-            <input name="title" placeholder="Title" value={formData.title} onChange={handleChange} />
-            <input name="author" placeholder="Author" value={formData.author} onChange={handleChange} />
-            <input name="price" placeholder="Price" value={formData.price} onChange={handleChange} />
-            <input name="image" placeholder="Image URL" value={formData.image} onChange={handleChange} />
-            <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
+          <div className="
+            admin-modal
+          ">
 
-            <div className="d-flex gap-2 mt-3">
-              <Button onClick={handleSubmit}>
-                {editMode ? "Update" : "Add"}
+            <h5 className="
+              admin-modal-title
+            ">
+              {editMode
+                ? "Edit Product"
+                : "Add New Product"}
+            </h5>
+
+            <input
+              name="title"
+              placeholder="Book title"
+              value={formData.title}
+              onChange={handleChange}
+            />
+
+            <input
+              name="author"
+              placeholder="Author name"
+              value={formData.author}
+              onChange={handleChange}
+            />
+
+            <input
+              name="price"
+              placeholder="Price"
+              value={formData.price}
+              onChange={handleChange}
+            />
+
+            <input
+              name="image"
+              placeholder="Image URL"
+              value={formData.image}
+              onChange={handleChange}
+            />
+
+            <textarea
+              name="description"
+              placeholder="Description"
+              value={
+                formData.description
+              }
+              onChange={handleChange}
+            />
+
+            <div className="admin-modal-action">
+
+              <Button
+                onClick={handleSubmit}
+              >
+                {editMode
+                  ? "Update Product"
+                  : "Add Product"}
               </Button>
 
-              <Button variant="outline" onClick={handleCloseModal}>
+              <Button
+                variant="outline"
+                onClick={
+                  handleCloseModal
+                }
+              >
                 Cancel
               </Button>
+
             </div>
 
           </div>
+
         </div>
+
       )}
 
     </div>
   );
+
 };
 
 export default AdminProducts;

@@ -1,31 +1,43 @@
-/*
-  Reusable UI Button component
-
-  Rules:
-  - UI only (no business logic)
-  - Bootstrap based
-  - Reusable across pages
-*/
 import React from "react";
 
 const Button = ({
   children,
+
   variant = "primary",
+  size = "md",
+
   disabled = false,
+
   className = "",
+
   type = "button",
-  ...props
+
+  ...props 
 }) => {
+
+  /* ---------- CLASS GENERATION ---------- */
+
+  const buttonClasses = [
+    "btn",
+    `btn-${variant}`,
+    `btn-${size}`,
+    "bn-btn",
+    className
+  ].join(" ");
+
+  /* ---------- MAIN UI ---------- */
+
   return (
     <button
       type={type}
-      className={`btn btn-${variant} ${className}`}
+      className={buttonClasses}
       disabled={disabled}
       {...props}
     >
       {children}
     </button>
   );
+
 };
 
 export default Button;
