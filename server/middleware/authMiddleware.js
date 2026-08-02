@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 
 const protect = (req, res, next) => {
   try {
-
     const authHeader = req.headers.authorization;
     let token;
 
@@ -12,7 +11,7 @@ const protect = (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({
-        message: "Not authorized, token missing"
+        message: "Not authorized, token missing",
       });
     }
 
@@ -21,11 +20,9 @@ const protect = (req, res, next) => {
     req.user = decoded;
 
     next();
-
   } catch (error) {
-    console.error(error);
     return res.status(401).json({
-      message: "Token invalid"
+      message: "Token invalid",
     });
   }
 };

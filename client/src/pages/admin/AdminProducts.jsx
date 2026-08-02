@@ -60,26 +60,13 @@ const AdminProducts = () => {
 
     try {
 
-      const res =
-        await api.get("/products");
+      const res = await api.get("/products");
 
-      const uniqueProducts =
-        Array.from(
-          new Map(
-            res.data.map((item) => [
-              item.title,
-              item
-            ])
-          ).values()
-        );
-
-      setProducts(uniqueProducts);
+      setProducts(res.data);
 
     } catch (err) {
 
-      setError(
-        "Failed to load products"
-      );
+      setError("Failed to load products");
 
     } finally {
 

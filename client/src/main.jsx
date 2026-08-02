@@ -8,7 +8,6 @@ import "./index.css";
 import App from "./App";
 
 import { CartProvider } from "./context/CartContext";
-import { OrderProvider } from "./context/OrderContext";
 import { AuthProvider } from "./context/AuthContext";
 
 /* -------------------- APP ENTRY -------------------- */
@@ -23,11 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
       <CartProvider>
 
-        <OrderProvider>
-
           <App />
-
-        </OrderProvider>
 
       </CartProvider>
 

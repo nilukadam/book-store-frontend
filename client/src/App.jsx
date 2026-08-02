@@ -8,53 +8,52 @@ import Orders from "./pages/Orders";
 import BookDetails from "./pages/BookDetails";
 import Auth from "./pages/Auth";
 
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 
-import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const location = useLocation();
 
-  // Hide navbar only on auth page
-  const hideHeader = location.pathname === "/auth";
+  // Hide navbar on authentication page
+  const hideNavbar = location.pathname === "/auth";
 
   return (
     <>
       <ScrollToTop />
 
-      {!hideHeader && <Navbar />}
+      {!hideNavbar && <Navbar />}
 
       <Toaster
-         position="top-right"
-         toastOptions={{
-           duration: 3000,
-           success: {
-              style: {
-                border: "1px solid #22c55e",
-              },
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          success: {
+            style: {
+              border: "1px solid #22c55e",
             },
-            error: {
-              style: {
-                border: "1px solid #ef4444",
-              },
+          },
+          error: {
+            style: {
+              border: "1px solid #ef4444",
             },
-          }}
-       />
+          },
+        }}
+      />
 
       <main className="app-main">
         <Routes>
-
-          {/* ---------- PUBLIC ROUTES ---------- */}
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/book/:id" element={<BookDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/auth" element={<Auth />} />
 
-          {/* ---------- USER ROUTES ---------- */}
+          {/* Protected User Route */}
           <Route
             path="/orders"
             element={
@@ -64,13 +63,11 @@ function App() {
             }
           />
 
-          {/* ---------- ADMIN ROUTES ---------- */}
-          
-          {/* Dashboard (default admin landing) */}
+          {/* Admin Routes */}
           <Route
             path="/admin"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute adminOnly>
                 <AdminDashboard />
               </ProtectedRoute>
             }
@@ -79,7 +76,7 @@ function App() {
           <Route
             path="/admin/dashboard"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute adminOnly>
                 <AdminDashboard />
               </ProtectedRoute>
             }
@@ -88,7 +85,7 @@ function App() {
           <Route
             path="/admin/products"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute adminOnly>
                 <AdminProducts />
               </ProtectedRoute>
             }
@@ -97,12 +94,11 @@ function App() {
           <Route
             path="/admin/orders"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute adminOnly>
                 <AdminOrders />
               </ProtectedRoute>
             }
           />
-
         </Routes>
       </main>
     </>

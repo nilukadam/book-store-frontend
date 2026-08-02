@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+
 import PageHeader from "../../components/ui/PageHeader";
 import Card from "../../components/ui/Card";
 import api from "../../api/api";
@@ -43,10 +45,13 @@ const AdminDashboard = () => {
 
       } catch (error) {
 
-        console.error(
-          "Dashboard error:",
-          error
-        );
+        if (import.meta.env.DEV){
+
+          console.error("Dashboard error:", error );
+
+        }
+
+         toast.error("Failed to load dashboard data.");
 
       } finally {
 

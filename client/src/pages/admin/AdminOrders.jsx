@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import toast from "react-hot-toast";
+
 import PageHeader from "../../components/ui/PageHeader";
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
@@ -51,24 +53,20 @@ const AdminOrders = () => {
   /* =====================================================
      UPDATE STATUS
   ===================================================== */
+   const updateStatus = async (id) => {
+     try {
+       await api.put(`/orders/${id}`, {
+         orderStatus: "completed",
+       });
+  
+       toast.success("Order status updated successfully.");
 
-  const updateStatus = async (id) => {
-
-    try {
-
-      await api.put(`/orders/${id}`, {
-        orderStatus: "completed",
-      });
-
-      fetchOrders();
-
-    } catch (err) {
-
-      alert("Failed to update status");
-
-    }
-
-  };
+       fetchOrders();
+ 
+     } catch (err) {
+       toast.error("Failed to update status.");
+     }
+   };
 
   /* =====================================================
      LOADING / ERROR

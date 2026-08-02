@@ -97,7 +97,9 @@ const Cart = () => {
 
     } catch (error) {
 
-      console.error(error);
+        if (import.meta.env.DEV) {
+               console.error(error);
+            }
 
       toast.error(
         "Failed to place order",
