@@ -15,7 +15,7 @@
 
 ---
 
-![BookNest Home](./screenshots/home.png)
+![BookNest Home](./screenshots/temp-home.png)
 
 ---
 
