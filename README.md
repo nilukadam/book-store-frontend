@@ -240,28 +240,10 @@ npm run dev
 
 ---
 
-## Future Roadmap
+## 🔮 Future Improvements
 
-**Reliability** — automated tests, CI checks on push
-**Commerce depth** — real payment gateway, order status notifications
-**Admin tooling** — analytics dashboard, multi-admin roles
-**UX** — wishlist, product reviews
-
----
-
-## Project Statistics
-
-| Metric | Detail |
-|---|---|
-| Frontend | React SPA, 5 route-level pages |
-| Backend | Express REST API, 3 route modules |
-| Database | MongoDB Atlas, 3 core collections |
-| Authentication | JWT, server-verified |
-| Authorization | 3-tier role model (Guest / User / Admin) |
-| Deployment | 2 independent platforms (Vercel, Render) |
-
----
-
-## Closing
-
-BookNest reflects an approach to commerce systems where the frontend and backend are treated as independently responsible services, connected by a defined API contract, with authentication and authorization enforced where it actually matters. It represents the full lifecycle of a transaction reasoned through end to end — not a UI layer alone.
+- Backend integration with real authentication & database
+- Payment gateway integration
+- API-based product data
+- Admin dashboard for product management
+- Order status tracking system
