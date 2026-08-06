@@ -15,7 +15,9 @@
 
 ---
 
-![BookNest Home](./screenshots/temp-home.png)
+<p align="center">
+  <img src="./screenshots/temp-home.png" width="100%" alt="BookNest Home"/>
+</p>
 
 ---
 
