@@ -1,251 +1,134 @@
-<div align="center">
-
 # BookNest
 
-**Production MERN Book Commerce Platform — Authentication, Orders, and Admin Control**
+### Production-Oriented MERN Book Commerce Platform
 
-[![Build](https://img.shields.io/badge/build-passing-success)]()
-[![Stack](https://img.shields.io/badge/stack-MERN-informational)]()
-[![Frontend](https://img.shields.io/badge/frontend-Vercel-black)]()
-[![Backend](https://img.shields.io/badge/backend-Render-46E3B7)]()
-
-[Live Demo](https://book-store-frontend-dnvp.vercel.app/) · [Repository](https://github.com/nilukadam/book-store-frontend)
-
-</div>
-
----
+A full-stack online bookstore built with React, Node.js, Express, and MongoDB — featuring JWT authentication, role-based authorization, cart management, order workflows, and an admin-controlled catalog.
 
 <p align="center">
-  <img src="./screenshots/temp-home.png" width="100%" alt="BookNest Home"/>
+  <a href="https://book-store-frontend-dnvp.vercel.app/">
+    <strong>Live Demo</strong>
+  </a>
+  &nbsp; • &nbsp;
+  <a href="https://github.com/nilukadam/booknest">
+    <strong>Repository</strong>
+  </a>
 </p>
 
 ---
 
-## Quick Snapshot
+## Overview
 
-- Full MERN stack — independently deployed React frontend and Express/MongoDB backend
-- Real JWT authentication, enforced server-side via middleware — not a UI-only gate
-- Complete commerce flow: catalog → cart → checkout → order history
-- Admin-managed product catalog and order status control
-- MongoDB Atlas as the persistence layer
+BookNest is a full-stack MERN commerce application designed to demonstrate how a real-world bookstore can be structured beyond a simple frontend interface.
 
----
+The project combines a React-based client with an Express/MongoDB backend and implements a complete application flow:
 
-## Table of Contents
+**Authentication → Catalog → Cart → Checkout → Orders → Admin Management**
 
-- [Executive Summary](#executive-summary)
-- [Why This Project Exists](#why-this-project-exists)
-- [Feature Matrix](#feature-matrix)
-- [System Architecture](#system-architecture)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Authentication Flow](#authentication-flow)
-- [Authorization Model](#authorization-model)
-- [API Overview](#api-overview)
-- [Database Design](#database-design)
-- [Deployment Architecture](#deployment-architecture)
-- [Environment Variables](#environment-variables)
-- [Engineering Decisions](#engineering-decisions)
-- [How To Run](#how-to-run)
-- [Future Roadmap](#future-roadmap)
-- [Project Statistics](#project-statistics)
-- [Closing](#closing)
+The project focuses on practical frontend engineering while also demonstrating backend integration, API communication, authentication, authorization, database persistence, and production deployment.
 
 ---
 
-## Executive Summary
+## Live Application
 
-BookNest is a full-stack MERN commerce platform for browsing and purchasing books. It was built to demonstrate ownership of a complete transaction lifecycle — authentication, authorization, cart state, order placement, and admin-side management — backed by a real database rather than simulated in the browser.
+**Live Demo:**  
+https://book-store-frontend-dnvp.vercel.app/
 
-The frontend and backend are deployed as independent services communicating over a REST API, with access control enforced at the server, not assumed from the UI.
-
----
-
-## Why This Project Exists
-
-Most portfolio commerce projects stop at the UI layer — a product grid and a cart that resets on refresh. BookNest was built to go past that boundary: real authentication, a real database, and an admin side treated as a first-class part of the system rather than an afterthought.
-
-The goal was ownership of the full stack, not a frontend pattern in isolation.
+**GitHub Repository:**  
+https://github.com/nilukadam/booknest
 
 ---
 
-## Feature Matrix
+## Product Preview
 
-### User
+![BookNest Home](./screenshots/tepm-home.png)
+
+---
+
+## Core Features
+
+### User Experience
+
+- User registration and login
+- JWT-based authentication
+- Protected application routes
+- Browse available books
+- Search books
+- Sort catalog results
+- View book details
+- Add books to cart
+- Increase/decrease cart quantity
+- Remove items from cart
+- Checkout and order placement
+- View previous orders
+- Persistent application state where required
+- Responsive interface
+
+### Admin Experience
+
+- Protected admin access
+- Admin dashboard
+- Product management
+- Add products
+- Edit products
+- Delete products
+- View product inventory
+- View customer orders
+- Manage order status
+
+### Backend Capabilities
+
+- REST API architecture
+- JWT authentication
+- Password hashing with bcrypt
+- Role-based authorization
+- Protected API endpoints
+- MongoDB persistence
+- Mongoose data modeling
+- Centralized middleware structure
+- Environment-based configuration
+- CORS configuration
+
+---
+
+## Feature Status
 
 | Feature | Status |
 |---|---|
-| Registration & login (JWT) | Implemented |
-| Browse and search catalog | Implemented |
-| Cart management | Implemented |
-| Checkout and order placement | Implemented — checkout flow is simulated, not a live payment gateway |
-| Order history | Implemented |
-| Email verification | Not implemented |
-| Wishlist | Not implemented |
+| User Registration | ✅ Implemented |
+| User Login | ✅ Implemented |
+| JWT Authentication | ✅ Implemented |
+| Role-Based Authorization | ✅ Implemented |
+| Book Catalog | ✅ Implemented |
+| Search | ✅ Implemented |
+| Sorting | ✅ Implemented |
+| Cart Management | ✅ Implemented |
+| Checkout Flow | ✅ Implemented |
+| Order Creation | ✅ Implemented |
+| Order History | ✅ Implemented |
+| Admin Dashboard | ✅ Implemented |
+| Product CRUD | ✅ Implemented |
+| Admin Order Management | ✅ Implemented |
+| MongoDB Persistence | ✅ Implemented |
+| Payment Gateway | ⏳ Not implemented |
+| Email Verification | ⏳ Not implemented |
+| Wishlist | ⏳ Not implemented |
+| Sales Analytics | ⏳ Not implemented |
 
-### Admin
-
-| Feature | Status |
-|---|---|
-| Admin-only route protection | Implemented |
-| Product CRUD | Implemented |
-| Order status control | Implemented |
-| Sales/analytics dashboard | Not implemented |
+> Checkout and order placement are implemented as an application workflow. A live payment gateway is not currently integrated.
 
 ---
 
-## System Architecture
+## Application Architecture
 
 ```mermaid
-flowchart TD
-    A[Browser] --> B[React SPA - Vercel]
-    B -->|REST API| C[Express Server - Render]
-    C --> D[(MongoDB Atlas)]
-```
+flowchart LR
+    U[User Browser]
+    F[React Frontend]
+    A[REST API]
+    B[Express Backend]
+    D[(MongoDB Atlas)]
 
----
-
-## Technology Stack
-
-| Layer | Technology |
-|---|---|
-| Frontend | React, Vite, React Router, Context API |
-| State | Domain-separated contexts (Cart, Orders), custom hooks (`useAuth`, `useCartSummary`) |
-| Styling | Bootstrap + custom CSS |
-| Backend | Node.js, Express, JWT |
-| Database | MongoDB Atlas + Mongoose |
-| Deployment | Vercel (frontend), Render (backend) |
-
----
-
-## Project Structure
-
-```
-client/src/
-├── api/
-├── components/ (Navbar/, ui/)
-├── context/        → CartContext, OrderContext
-├── hooks/           → useAuth, useCartSummary
-├── pages/
-└── utils/
-
-server/
-├── config/
-├── controllers/
-├── middleware/
-├── models/
-└── routes/          → authRoutes.js, productRoutes.js, orderRoutes.js
-```
-
----
-
-## Authentication Flow
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant F as Frontend
-    participant B as Backend
-    participant D as MongoDB
-
-    U->>F: Register / Login
-    F->>B: POST /api/auth
-    B->>D: Verify or create user
-    B->>B: Sign JWT
-    B-->>F: Return token
-    F->>B: Authenticated request (Bearer token)
-    B->>B: Verify JWT via middleware
-    B-->>F: Protected resource
-```
-
----
-
-## Authorization Model
-
-| Role | Access |
-|---|---|
-| Guest | Browse catalog only |
-| User | Cart, checkout, order history |
-| Admin | All user access, plus product management and order status control |
-
-Role checks are enforced server-side via middleware, not just hidden in the UI.
-
----
-
-## API Overview
-
-| Group | Responsibility |
-|---|---|
-| `/api/auth` | Registration, login |
-| `/api/products` | Catalog read; create/update/delete restricted to admin |
-| `/api/orders` | Order creation, user history; status control restricted to admin |
-
----
-
-## Database Design
-
-| Collection | Purpose | Relationship |
-|---|---|---|
-| Users | Credentials, role | Referenced by Orders |
-| Products | Catalog items | Referenced by Orders |
-| Orders | Placed orders, status | References User and Products |
-
----
-
-## Deployment Architecture
-
-```mermaid
-flowchart TD
-    A[Browser] --> B[Vercel - Frontend]
-    B --> C[Render - Backend]
-    C --> D[(MongoDB Atlas)]
-```
-
-Frontend and backend are deployed independently, so either layer can be redeployed or scaled without touching the other.
-
----
-
-## Environment Variables
-
-**Backend:** `MONGODB_URI`, `JWT_SECRET`, `PORT`
-**Frontend:** `VITE_API_BASE_URL`
-
-Values are never committed — each environment supplies its own.
-
----
-
-## Engineering Decisions
-
-**JWT over sessions** — stateless auth fits a decoupled frontend/backend deployment where the server holds no session state.
-
-**Context API over Redux** — shared state (cart, orders) is limited in scope; Redux's boilerplate wasn't justified here.
-
-**Separate deployments** — Vercel for static hosting, Render for the long-running Node process — matching each platform to what it's built for.
-
-**Server-enforced authorization** — role checks live in backend middleware, so protected endpoints stay protected regardless of what the frontend renders.
-
----
-
-## How To Run
-
-```bash
-git clone https://github.com/nilukadam/book-store-frontend.git
-
-cd book-store-frontend/server
-npm install        # add .env with variables above
-npm run dev
-
-cd ../client
-npm install         # add .env with VITE_API_BASE_URL
-npm run dev
-```
-
----
-
-## 🔮 Future Improvements
-
-- Backend integration with real authentication & database
-- Payment gateway integration
-- API-based product data
-- Admin dashboard for product management
-- Order status tracking system
+    U --> F
+    F --> A
+    A --> B
+    B --> D
